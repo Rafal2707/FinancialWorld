@@ -14,6 +14,7 @@ public class ActivityScroll : MonoBehaviour
     [SerializeField] private ParticleSystem fliesParticles;
     [SerializeField] private ParticleSystem dropParticles;
 
+    //check Github
 
     public void Interact(Player player)
     {
