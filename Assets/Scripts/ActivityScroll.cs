@@ -8,6 +8,7 @@ public class ActivityScroll : MonoBehaviour
     private bool isCentralBankActivity;
     private string description;
     private bool isDropped = true;
+    bool isQuitting;
     [SerializeField] private Transform scrollHoldPoint;
     [SerializeField] private LayerMask scrollLayerMask;
     [SerializeField] ScrollUI scrollUI;
@@ -125,9 +126,20 @@ public class ActivityScroll : MonoBehaviour
         }
     }
 
+
+    //bool "IsQuitting" is set to overcome the issue with uncleared gameObjects (Puffs) after destroy is called
     private void OnDestroy()
     {
-      GameObject dropPuffVFX =  Instantiate(explosionParticles, transform.position, Quaternion.identity);
-        Destroy(dropPuffVFX, 0.75f);
+        if (!isQuitting)
+        {
+            GameObject dropPuffVFX = Instantiate(explosionParticles, transform.position, Quaternion.identity);
+            Destroy(dropPuffVFX, 0.75f);
+        }
+
+    }
+
+   private void OnApplicationQuit()
+    {
+        isQuitting = true;
     }
 }

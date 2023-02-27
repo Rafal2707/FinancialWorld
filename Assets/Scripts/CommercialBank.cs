@@ -1,11 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class CommercialBank : MonoBehaviour
 {
     [SerializeField] ScoreUI scoreUI;
     private ActivityScroll lastActivityScrollInside;
+
+    [SerializeField] private VisualEffect fireworksLeft;
+    [SerializeField] private VisualEffect fireworksRight;
+
+    private void Start()
+    {
+        fireworksLeft.Stop();
+        fireworksRight.Stop();
+    }
 
 
     private void OnTriggerStay(Collider other)
@@ -24,6 +34,8 @@ public class CommercialBank : MonoBehaviour
                 {
                     Debug.Log("Aktywnosc z banku komercyjnego");
                     scoreUI.IncreaseScore();
+                    fireworksLeft.Play();
+                    fireworksRight.Play();
                 }
                 else if (lastActivityScrollInside.IsCentralBankActivity())
                 {
@@ -41,6 +53,8 @@ public class CommercialBank : MonoBehaviour
         if (other.TryGetComponent(out Player player))
         {
             player.SetIsInDroppingArea(false);
+            fireworksLeft.Stop();
+            fireworksRight.Stop();
         }
     }
 }
