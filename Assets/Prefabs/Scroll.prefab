@@ -750,6 +750,8 @@ MonoBehaviour:
   scrollUI: {fileID: 3847405282326379391}
   fliesParticles: {fileID: 3419065092315670723}
   dropParticles: {fileID: 8837722346041378759}
+  explosionParticles: {fileID: 1599718021928974, guid: 21461e6c060baf044ac3e717ed4170cb,
+    type: 3}
 --- !u!65 &-1283705924229966241
 BoxCollider:
   m_ObjectHideFlags: 0

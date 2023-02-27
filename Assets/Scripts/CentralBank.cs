@@ -6,12 +6,14 @@ public class CentralBank : MonoBehaviour
 {
     [SerializeField] ScoreUI scoreUI;
     private ActivityScroll lastActivityScrollInside;
+    
 
 
     private void OnTriggerStay(Collider other)
     {
         if (other.TryGetComponent(out Player player))
         {
+            player.SetIsInDroppingArea(true);
             if (player.GetCurrentActivityScroll() != null)
             {
                 lastActivityScrollInside = player.GetCurrentActivityScroll();
@@ -34,4 +36,11 @@ public class CentralBank : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out Player player))
+        {
+            player.SetIsInDroppingArea(false);
+        }
+    }
 }

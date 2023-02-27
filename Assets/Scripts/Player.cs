@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
 
     private bool isHoldingScroll;
     private float pickupRadius = 3f;
+    private bool isInDroppingArea;
 
 
 
@@ -54,6 +55,15 @@ public class Player : MonoBehaviour
 
     }
 
+    public void SetIsInDroppingArea(bool isInDroppingArea)
+    {
+        this.isInDroppingArea= isInDroppingArea;
+    }
+
+    public bool IsInDroppingArea()
+    {
+        return isInDroppingArea;
+    }
     public bool IsWalking()
     {
         return isWalking;

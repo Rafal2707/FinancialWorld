@@ -12,6 +12,7 @@ public class CommercialBank : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
+            player.SetIsInDroppingArea(true);
             if (player.GetCurrentActivityScroll() != null)
             {
                 lastActivityScrollInside = player.GetCurrentActivityScroll();
@@ -34,4 +35,12 @@ public class CommercialBank : MonoBehaviour
         }
     }
 
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out Player player))
+        {
+            player.SetIsInDroppingArea(false);
+        }
+    }
 }

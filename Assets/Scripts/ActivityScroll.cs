@@ -13,8 +13,7 @@ public class ActivityScroll : MonoBehaviour
     [SerializeField] ScrollUI scrollUI;
     [SerializeField] private ParticleSystem fliesParticles;
     [SerializeField] private ParticleSystem dropParticles;
-
-    //check Github
+    [SerializeField] private GameObject explosionParticles;
 
     public void Interact(Player player)
     {
@@ -51,10 +50,16 @@ public class ActivityScroll : MonoBehaviour
         {
             player.SetCurrentActivityScroll(null);
             player.SetIsHoldingScroll(false);
+
             transform.parent = null;
             transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
-            fliesParticles.Play();
-            dropParticles.Play();
+
+            if (!player.IsInDroppingArea())
+            {
+                fliesParticles.Play();
+                dropParticles.Play();
+            }
+
             isDropped = true;
 
         }
@@ -120,4 +125,9 @@ public class ActivityScroll : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+      GameObject dropPuffVFX =  Instantiate(explosionParticles, transform.position, Quaternion.identity);
+        Destroy(dropPuffVFX, 0.75f);
+    }
 }
