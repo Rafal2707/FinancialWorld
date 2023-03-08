@@ -1,9 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ActivityScroll : MonoBehaviour
 {
+
+    public static event EventHandler OnAnyPickUpScroll;
+    public static event EventHandler OnAnyDropScroll;
+
+    public static void ResetStaticData()
+    {
+        OnAnyDropScroll= null;
+        OnAnyPickUpScroll= null;
+    }
+
 
     private bool isCentralBankActivity;
     private string description;
@@ -15,6 +26,7 @@ public class ActivityScroll : MonoBehaviour
     [SerializeField] private ParticleSystem fliesParticles;
     [SerializeField] private ParticleSystem dropParticles;
     [SerializeField] private GameObject explosionParticles;
+
 
     public void Interact(Player player)
     {
@@ -35,6 +47,7 @@ public class ActivityScroll : MonoBehaviour
 
     private void PickUpScroll(Player player)
     {
+        OnAnyPickUpScroll?.Invoke(this, EventArgs.Empty);
         transform.parent = player.GetScrollHoldPoint();
         transform.position = player.GetScrollHoldPoint().position;
         transform.rotation = player.GetScrollHoldPoint().rotation;
@@ -49,6 +62,7 @@ public class ActivityScroll : MonoBehaviour
     {
         if(player.GetCurrentActivityScroll() == this)
         {
+            OnAnyDropScroll?.Invoke(this, EventArgs.Empty);
             player.SetCurrentActivityScroll(null);
             player.SetIsHoldingScroll(false);
 
@@ -128,15 +142,15 @@ public class ActivityScroll : MonoBehaviour
 
 
     //bool "IsQuitting" is set to overcome the issue with uncleared gameObjects (Puffs) after destroy is called
-    private void OnDestroy()
-    {
-        if (!isQuitting)
-        {
-            GameObject dropPuffVFX = Instantiate(explosionParticles, transform.position, Quaternion.identity);
-            Destroy(dropPuffVFX, 0.75f);
-        }
+    ////private void OnDestroy()
+    ////{
+    ////    if (!isQuitting)
+    ////    {
+    ////        GameObject dropPuffVFX = Instantiate(explosionParticles, transform.position, Quaternion.identity);
+    ////        Destroy(dropPuffVFX, 0.75f);
+    ////    }
 
-    }
+    //}
 
    private void OnApplicationQuit()
     {

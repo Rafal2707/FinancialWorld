@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3657451386449559838}
   - component: {fileID: 9147725631797274023}
   - component: {fileID: 8032833970362399215}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EKeyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 8338944857767136708}
   - component: {fileID: 1819292108411873387}
   - component: {fileID: 2601851202747298120}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 7136300515131487390}
   - component: {fileID: 4950647773395092017}
   - component: {fileID: 4590555815663632605}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 1807920450045366307}
   - component: {fileID: 2049781865444936096}
   - component: {fileID: 3847405282326379391}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ScrollUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5962081527911929124}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EKeyUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,7 +577,7 @@ GameObject:
   - component: {fileID: 6522634575294545274}
   - component: {fileID: 1943685174033433315}
   - component: {fileID: 6048214344519451276}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +666,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6043348523764181959}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DescriptionUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}

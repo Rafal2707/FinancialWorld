@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,15 @@ public class CommercialBank : MonoBehaviour
     [SerializeField] ScoreUI scoreUI;
     private ActivityScroll lastActivityScrollInside;
 
+    public event EventHandler OnScrollCorrect;
+    public event EventHandler OnScrollIncorrect;
+
+
     [SerializeField] private VisualEffect fireworksLeft;
     [SerializeField] private VisualEffect fireworksRight;
+
+    [SerializeField] private Transform dropArea;
+
 
     private void Start()
     {
@@ -33,14 +41,14 @@ public class CommercialBank : MonoBehaviour
                 if (!lastActivityScrollInside.IsCentralBankActivity())
                 {
                     Debug.Log("Aktywnosc z banku komercyjnego");
-                    scoreUI.IncreaseScore();
+                    OnScrollCorrect?.Invoke(this, EventArgs.Empty);
                     fireworksLeft.Play();
                     fireworksRight.Play();
                 }
                 else if (lastActivityScrollInside.IsCentralBankActivity())
                 {
                     Debug.Log("Aktywnosc z banku centralnego");
-                    scoreUI.DecreaseScore();
+                    OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
                 }
                 Destroy(lastActivityScrollInside.gameObject);
             }
@@ -56,5 +64,10 @@ public class CommercialBank : MonoBehaviour
             fireworksLeft.Stop();
             fireworksRight.Stop();
         }
+    }
+
+    public Vector3 GetDropAreaPosition()
+    {
+        return dropArea.position;
     }
 }

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
 
-    [SerializeField] ScrollUI scrollUI;
+
+
 
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private GameInput gameInput;
     private bool isWalking;
     private Vector3 lastInteractDir;
     [SerializeField] private Transform scrollHoldPoint;
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
     {
         if (!GameManager.Instance.IsGamePlaying()) return;
 
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
         if (moveDir != Vector3.zero)
@@ -71,7 +72,7 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = GameInput.Instance.GetMovementVectorNormalized();
 
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour
 
             //Attepmt only X movement
             Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f).normalized;
-            canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            canMove = (moveDir.x < -0.5 || moveDir.x > 0.5) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
             if (canMove)
             {
                 //can move only on the X
@@ -101,7 +102,7 @@ public class Player : MonoBehaviour
                 //Attepmt only Z movement
                 Vector3 moveDirZ = new Vector3(0f, 0f, moveDir.z).normalized;
 
-                canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+                canMove = (moveDir.z < -0.5 || moveDir.z > 0.5) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
 
                 if (canMove)
                 {
@@ -134,12 +135,20 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        gameInput.OnInteractAction += GameInput_OnInteractAction;
+        
+
+        GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
     }
 
     private void Update()
     {
-        HandleMovement();     
+        if(!IsOwner)
+        {
+            return;
+        }
+
+        HandleMovement();
+
     }
 
     public bool IsHoldingScroll()

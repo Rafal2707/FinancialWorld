@@ -1,9 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
+
+    public static Spawner Instance { get; private set; }
+
+    public event EventHandler OnSpawnedScroll;
+
     [SerializeField] List<Transform> spawningLocationsList;
 
 
@@ -17,6 +24,10 @@ public class Spawner : MonoBehaviour
     float originalPlaneSize = 10f;
     float offsetFromPlaneEdges = .5f;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         spawnedScrollsSlist = new List<ActivityScrollSO>();
@@ -42,10 +53,11 @@ public class Spawner : MonoBehaviour
             ActivityScrollSO randomScript = PickRandomScroll();
             if(randomScript != null)
             {
-               
-                spawnedScrollsSlist.Add(randomScript);
-               Transform spawnedScrollTransfrom = Instantiate(randomScript.prefab, randomLocationTransform.position + RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
+               spawnedScrollsSlist.Add(randomScript);
 
+               Transform spawnedScrollTransfrom = Instantiate(randomScript.prefab, randomLocationTransform.position + RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
+               OnSpawnedScroll?.Invoke(this, EventArgs.Empty);
+               
                 spawnedScrollTransfrom.GetComponent<ActivityScroll>().AssignCentralBankActivity(randomScript.isCentralBankActivity);
                 spawnedScrollTransfrom.GetComponent<ActivityScroll>().SetDescription(randomScript.Description);
 
