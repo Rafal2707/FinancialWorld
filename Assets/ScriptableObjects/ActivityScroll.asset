@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 0
-  Description: "Umo\u017Aliwia spo\u0142ecze\u0144stwu zak\u0142adanie rachunk\xF3w
-    indywidualnych"
+  description: Aktywnosc z banku komercyjnego 3
   isCentralBankActivity: 0

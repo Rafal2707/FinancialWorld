@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Spawner : MonoBehaviour
+public class Spawner : NetworkBehaviour
 {
 
     public static Spawner Instance { get; private set; }
@@ -15,11 +16,11 @@ public class Spawner : MonoBehaviour
 
 
     [SerializeField] List<ActivityScrollSO> allScrollsList;
-    public List<ActivityScrollSO> spawnedScrollsSlist;
+    public List<ActivityScrollSO> spawnedScrollsList;
 
     int randomNumber;
     float timeToSpawnMax = 10f;
-    float timeToSpawn;
+    float timeToSpawn = 4f;
 
     float originalPlaneSize = 10f;
     float offsetFromPlaneEdges = .5f;
@@ -30,7 +31,7 @@ public class Spawner : MonoBehaviour
     }
     private void Start()
     {
-        spawnedScrollsSlist = new List<ActivityScrollSO>();
+        spawnedScrollsList = new List<ActivityScrollSO>();
 
         timeToSpawn = 3f;
     }
@@ -38,34 +39,74 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance.IsGamePlaying()) return;
+        if (!IsServer)
+        {
+            return;
+        }
+        if (!GameManager.Instance.IsGamePlaying())
+        {
+            return;
+        };
 
-        randomNumber = Random.Range(0, spawningLocationsList.Count);
+        if (spawnedScrollsList.Count == allScrollsList.Count)
+        {
+            return;
+        }
+
         timeToSpawn -= Time.deltaTime;
-
         if (timeToSpawn < 0)
         {
-            Transform randomLocationTransform = spawningLocationsList[randomNumber].transform;
-            if(spawnedScrollsSlist.Count == allScrollsList.Count)
-            {
-                return;
-            }
-            ActivityScrollSO randomScript = PickRandomScroll();
-            if(randomScript != null)
-            {
-               spawnedScrollsSlist.Add(randomScript);
+            timeToSpawn = timeToSpawnMax;
+            ActivityScrollSO newRandomScript = PickRandomScroll();
 
-               Transform spawnedScrollTransfrom = Instantiate(randomScript.prefab, randomLocationTransform.position + RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
-               OnSpawnedScroll?.Invoke(this, EventArgs.Empty);
-               
-                spawnedScrollTransfrom.GetComponent<ActivityScroll>().AssignCentralBankActivity(randomScript.isCentralBankActivity);
-                spawnedScrollTransfrom.GetComponent<ActivityScroll>().SetDescription(randomScript.Description);
+            if (newRandomScript != null)
+            {
+                int newRandomScriptIndex = GetActivityScrollSOIndex(newRandomScript);
 
-                timeToSpawn = timeToSpawnMax;
+
+
+                // Don't spawn if there are no available scrolls anymore.
+                if (newRandomScriptIndex != -1)
+                {                    
+                    SpawnNewScrollServerRpc(newRandomScriptIndex);
+                }
             }
-           
+
         }
     }
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnNewScrollServerRpc(int newActivityScrollSOIndex)
+    {
+
+        Transform randomLocationTransform = spawningLocationsList[0].transform;
+
+        ActivityScrollSO randomScript = GetActivityScrollSOFromIndex(newActivityScrollSOIndex);
+        spawnedScrollsList.Add(randomScript);
+
+
+        Transform spawnedScrollTransform = Instantiate(randomScript.prefab, RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
+
+
+        spawnedScrollTransform.GetComponent<ActivityScroll>().SetDescription(randomScript.description);
+        spawnedScrollTransform.GetComponent<ActivityScroll>().AssignCentralBankActivity(randomScript.isCentralBankActivity);
+
+
+        // Call SetDescriptionClientRpc on the client-side to set the description and bank activity
+        
+        spawnedScrollTransform.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.description);
+        spawnedScrollTransform.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomScript.isCentralBankActivity);
+
+        NetworkObject spawnedNetworkScroll = spawnedScrollTransform.GetComponent<NetworkObject>();
+        spawnedNetworkScroll.Spawn(true);
+
+        OnSpawnedScroll?.Invoke(this, EventArgs.Empty);
+    }
+
+
+
 
 
     private Vector3 RandomSpawnOffsetPosition(Transform planeTransform)
@@ -84,16 +125,26 @@ public class Spawner : MonoBehaviour
         ActivityScrollSO randomActivityScroll = allScrollsList[Random.Range(0, allScrollsList.Count)];
         
         //Make sure to spawn different activity each time.
-        while (spawnedScrollsSlist.Contains(randomActivityScroll) && attempts < allScrollsList.Count)
+        while (spawnedScrollsList.Contains(randomActivityScroll) && attempts < allScrollsList.Count)
         {
             randomActivityScroll = allScrollsList[Random.Range(0, allScrollsList.Count)];
             attempts++;
         }
-        if (spawnedScrollsSlist.Contains(randomActivityScroll)) 
+        if (spawnedScrollsList.Contains(randomActivityScroll)) 
         {
             randomActivityScroll = null;
         }
         return randomActivityScroll;
     }
 
+
+    private int GetActivityScrollSOIndex(ActivityScrollSO activityScrollSO)
+    {
+        return allScrollsList.IndexOf(activityScrollSO);
+    }
+
+    private ActivityScrollSO GetActivityScrollSOFromIndex(int index)
+    {
+        return allScrollsList[index];
+    }
 }

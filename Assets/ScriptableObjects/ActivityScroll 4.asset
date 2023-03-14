@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 4
-  Description: "Decyduje jaki jest koszt pieni\u0105dza w danym kraju zmniejszaj\u0105c
-    lub zwi\u0119kszaj\u0105c podstawow\u0105 stop\u0119 %."
+  description: Aktywnosc z banku centralnego 2
   isCentralBankActivity: 1

@@ -7,7 +7,7 @@ public class ActivityScrollSO : ScriptableObject
 {
     public Transform prefab;
     public int number;
-    public string Description;
+    public string description;
     public bool isCentralBankActivity;
 
 

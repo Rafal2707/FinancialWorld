@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.VFX;
 
-public class CentralBank : MonoBehaviour
+public class CentralBank : NetworkBehaviour
 {
     public event EventHandler OnScrollCorrect;
     public event EventHandler OnScrollIncorrect;
@@ -29,35 +30,59 @@ public class CentralBank : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out Player player))
+        if (other.TryGetComponent(out IScrollParent activityScrollParent))
         {
-            player.SetIsInDroppingArea(true);
-            if (player.GetCurrentActivityScroll() != null)
+            activityScrollParent.SetIsInDroppingArea(true);
+            if (activityScrollParent.GetActivityScroll() != null)
             {
-                lastActivityScrollInside = player.GetCurrentActivityScroll();
+                lastActivityScrollInside = activityScrollParent.GetActivityScroll();
             }
 
             if (lastActivityScrollInside != null && lastActivityScrollInside.IsDropped())
             {
                 if (lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    Debug.Log("Aktywnosc z banku centralnego");
-                    OnScrollCorrect?.Invoke(this, EventArgs.Empty);
-
-                    fireworksLeft.Play();
-                    fireworksRight.Play();
-                
-                    
+                    ScrollCorrectlyAssignedServerRpc();
                 }
                 else if (!lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    Debug.Log("Aktywnosc z banku komercyjnego");
-                    OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
+                    ScrollIncorrectlyAssignedServerRpc();
                 }
+                //Despawn?
                 Destroy(lastActivityScrollInside.gameObject);
             }
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ScrollCorrectlyAssignedServerRpc()
+    {
+        ScrollCorrectlyAssignedClientRpc();
+    }
+
+    [ClientRpc]
+    public void ScrollCorrectlyAssignedClientRpc()
+    {
+        Debug.Log("Aktywnosc z banku centralnego");
+        OnScrollCorrect?.Invoke(this, EventArgs.Empty);
+
+        fireworksLeft.Play();
+        fireworksRight.Play();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ScrollIncorrectlyAssignedServerRpc()
+    {
+        ScrollIncorrectlyAssignedClientRpc();
+    }
+
+    [ClientRpc]
+    public void ScrollIncorrectlyAssignedClientRpc()
+    {
+        Debug.Log("Aktywnosc z banku komercyjnego");
+        OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
+    }
+
 
     private void OnTriggerExit(Collider other)
     {

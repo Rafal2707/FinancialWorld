@@ -6,10 +6,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : NetworkBehaviour
+public class Player : NetworkBehaviour, IScrollParent
 {
 
+    public static event EventHandler OnAnyPlayerSpawned;
 
+    public static void ResetStaticData()
+    {
+        OnAnyPlayerSpawned = null;
+    }
+
+    public static Player LocalInstance { get; private set; }
 
 
     [SerializeField] private float moveSpeed = 7f;
@@ -28,8 +35,16 @@ public class Player : NetworkBehaviour
     private bool isInDroppingArea;
 
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            LocalInstance = this;
+        }
 
-    
+        OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
+    }
+
 
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
@@ -170,5 +185,39 @@ public class Player : NetworkBehaviour
     {
         return currentActivityScroll;
     }
+
+
+
+
+    public Transform GetScrollFollowTransform()
+    {
+        return scrollHoldPoint.transform;
+    }
+
+    public void SetActivityScroll(ActivityScroll activityScroll)
+    {
+        currentActivityScroll = activityScroll;
+    }
+
+    public ActivityScroll GetActivityScroll()
+    {
+        return currentActivityScroll;
+    }
+
+    public void ClearActivityScroll()
+    {
+        currentActivityScroll = null;
+    }
+
+    public bool HasActivityScroll()
+    {
+        return currentActivityScroll != null;
+    }
+
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
+    }
+
 
 }

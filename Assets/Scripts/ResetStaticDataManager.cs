@@ -7,5 +7,6 @@ public class ResetStaticDataManager : MonoBehaviour
     private void Awake()
     {
         ActivityScroll.ResetStaticData();
+        Player.ResetStaticData();
     }
 }

@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ActivityScroll : MonoBehaviour
+public class ActivityScroll : NetworkBehaviour
 {
 
     public static event EventHandler OnAnyPickUpScroll;
     public static event EventHandler OnAnyDropScroll;
 
+    public FollowTransform followTransform;
+
+    private void Awake()
+    {
+        followTransform = GetComponent<FollowTransform>();
+    }
     public static void ResetStaticData()
     {
-        OnAnyDropScroll= null;
-        OnAnyPickUpScroll= null;
+        OnAnyDropScroll = null;
+        OnAnyPickUpScroll = null;
     }
 
 
@@ -27,17 +34,21 @@ public class ActivityScroll : MonoBehaviour
     [SerializeField] private ParticleSystem dropParticles;
     [SerializeField] private GameObject explosionParticles;
 
+    private IScrollParent activityScrollParent;
 
-    public void Interact(Player player)
+
+
+
+
+    public void Interact(IScrollParent activityScrollParent)
     {
-        
-        if(player.GetCurrentActivityScroll() == null) 
+        if (!activityScrollParent.HasActivityScroll()) 
         {
-            PickUpScroll(player);
+            PickUpScroll(activityScrollParent);
         }
-        else if (player.GetCurrentActivityScroll() != null)
+        else if (activityScrollParent.HasActivityScroll())
         {
-            DropScroll(player);
+            DropScroll(activityScrollParent);
         }
     }
     public void MoveTo(Vector3 position)
@@ -45,31 +56,66 @@ public class ActivityScroll : MonoBehaviour
         transform.position = new Vector3(position.x, 0.5f, position.z);
     }
 
-    private void PickUpScroll(Player player)
+    private void PickUpScroll(IScrollParent activityScrollParent)
     {
         OnAnyPickUpScroll?.Invoke(this, EventArgs.Empty);
-        transform.parent = player.GetScrollHoldPoint();
-        transform.position = player.GetScrollHoldPoint().position;
-        transform.rotation = player.GetScrollHoldPoint().rotation;
-        player.SetCurrentActivityScroll(this);
-        player.SetIsHoldingScroll(true);
+        SetScrollParentServerRpc(activityScrollParent.GetNetworkObject());
+        followTransform.SetTargetTransform(activityScrollParent.GetScrollFollowTransform());
+        activityScrollParent.SetActivityScroll(this);
         scrollUI.HideEKeyUI();
         fliesParticles.Stop();
         isDropped = false;
     }
 
-    public void DropScroll(Player player)
+    [ServerRpc(RequireOwnership = false)]
+    private void SetScrollParentServerRpc(NetworkObjectReference activityScrollParentNetworkObjectReference)
     {
-        if(player.GetCurrentActivityScroll() == this)
+        SetScrollObjectParentClientRpc(activityScrollParentNetworkObjectReference);
+    }
+
+    [ClientRpc]
+    private void SetScrollObjectParentClientRpc(NetworkObjectReference activityScrollParentNetworkObjectReference)
+    {
+        activityScrollParentNetworkObjectReference.TryGet(out NetworkObject activityScrollParentNetworkObject);
+        IScrollParent activityScrollParent = activityScrollParentNetworkObject.GetComponent<IScrollParent>();
+
+        if(this.activityScrollParent != null)
+        {
+            this.activityScrollParent.ClearActivityScroll();
+        }
+
+        this.activityScrollParent = activityScrollParent;
+
+
+        if (activityScrollParent.HasActivityScroll())
+        {
+            Debug.Log("IScrollParent already has a Scroll activity");
+        }
+
+        activityScrollParent.SetActivityScroll(this);
+
+        followTransform.SetTargetTransform(activityScrollParent.GetScrollFollowTransform());
+    }
+
+
+
+
+
+    public void DropScroll(IScrollParent activityScrollParent)
+    {
+        Debug.Log("Drop");
+        
+        if (activityScrollParent.GetActivityScroll() == this)
         {
             OnAnyDropScroll?.Invoke(this, EventArgs.Empty);
-            player.SetCurrentActivityScroll(null);
-            player.SetIsHoldingScroll(false);
+            activityScrollParent.ClearActivityScroll();
 
-            transform.parent = null;
+            
+
             transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            followTransform.SetTargetTransform(transform);
 
-            if (!player.IsInDroppingArea())
+            if (!activityScrollParent.IsInDroppingArea())
             {
                 fliesParticles.Play();
                 dropParticles.Play();
@@ -79,9 +125,6 @@ public class ActivityScroll : MonoBehaviour
 
         }
     }
-
-
-
     public bool IsDropped()
     {
         return isDropped;
@@ -114,6 +157,18 @@ public class ActivityScroll : MonoBehaviour
     public string GetDescription() 
     {
         return description;
+    }
+
+    [ClientRpc]
+    public void SetDescriptionClientRpc(string description)
+    {
+        SetDescription(description);
+    }
+
+    [ClientRpc]
+    public void AssignCentralBankActivityClientRpc(bool isCentralBankActivity)
+    {
+        AssignCentralBankActivity(isCentralBankActivity);
     }
 
 
