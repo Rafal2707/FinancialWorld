@@ -21,4 +21,5 @@ public interface IScrollParent
     public bool IsInDroppingArea();
 
     public void SetIsInDroppingArea(bool isInDroppingArea);
+
 }

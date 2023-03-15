@@ -42,11 +42,11 @@ public class ActivityScroll : NetworkBehaviour
 
     public void Interact(IScrollParent activityScrollParent)
     {
-        if (!activityScrollParent.HasActivityScroll()) 
+        if (activityScrollParent.GetNetworkObject().IsOwner && !activityScrollParent.HasActivityScroll()) 
         {
             PickUpScroll(activityScrollParent);
         }
-        else if (activityScrollParent.HasActivityScroll())
+        else if (activityScrollParent.GetNetworkObject().IsOwner && activityScrollParent.HasActivityScroll())
         {
             DropScroll(activityScrollParent);
         }
@@ -65,6 +65,28 @@ public class ActivityScroll : NetworkBehaviour
         scrollUI.HideEKeyUI();
         fliesParticles.Stop();
         isDropped = false;
+    }
+
+
+    public void DropScroll(IScrollParent activityScrollParent)
+    {
+        if (activityScrollParent.GetActivityScroll() == this)
+        {
+            OnAnyDropScroll?.Invoke(this, EventArgs.Empty);
+            activityScrollParent.ClearActivityScroll();
+            SetScrollOrphanServerRpc(activityScrollParent.GetNetworkObject());
+            //transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+            followTransform.SetTargetTransform(transform);
+
+            if (!activityScrollParent.IsInDroppingArea())
+            {
+                fliesParticles.Play();
+                dropParticles.Play();
+            }
+
+            isDropped = true;
+
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -98,33 +120,35 @@ public class ActivityScroll : NetworkBehaviour
     }
 
 
-
-
-
-    public void DropScroll(IScrollParent activityScrollParent)
+    [ServerRpc(RequireOwnership = false)]
+    private void SetScrollOrphanServerRpc(NetworkObjectReference activityScrollParentNetworkObjectReference)
     {
-        Debug.Log("Drop");
-        
-        if (activityScrollParent.GetActivityScroll() == this)
-        {
-            OnAnyDropScroll?.Invoke(this, EventArgs.Empty);
-            activityScrollParent.ClearActivityScroll();
-
-            
-
-            transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
-            followTransform.SetTargetTransform(transform);
-
-            if (!activityScrollParent.IsInDroppingArea())
-            {
-                fliesParticles.Play();
-                dropParticles.Play();
-            }
-
-            isDropped = true;
-
-        }
+        SetScrollObjectOrphanClientRpc(activityScrollParentNetworkObjectReference);
     }
+
+    [ClientRpc]
+    private void SetScrollObjectOrphanClientRpc(NetworkObjectReference activityScrollParentNetworkObjectReference)
+    {
+        activityScrollParentNetworkObjectReference.TryGet(out NetworkObject activityScrollParentNetworkObject);
+        IScrollParent activityScrollParent = activityScrollParentNetworkObject.GetComponent<IScrollParent>();
+
+        if(this.activityScrollParent != null)
+        {
+            this.activityScrollParent.ClearActivityScroll();
+        }
+
+        activityScrollParent.SetActivityScroll(null);
+
+        followTransform.SetTargetTransform(null);
+        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+
+    }
+
+
+
+
+
+
     public bool IsDropped()
     {
         return isDropped;

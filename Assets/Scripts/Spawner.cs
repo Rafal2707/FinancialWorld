@@ -82,7 +82,6 @@ public class Spawner : NetworkBehaviour
     {
 
         Transform randomLocationTransform = spawningLocationsList[0].transform;
-
         ActivityScrollSO randomScript = GetActivityScrollSOFromIndex(newActivityScrollSOIndex);
         spawnedScrollsList.Add(randomScript);
 
@@ -90,17 +89,13 @@ public class Spawner : NetworkBehaviour
         Transform spawnedScrollTransform = Instantiate(randomScript.prefab, RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
 
 
-        spawnedScrollTransform.GetComponent<ActivityScroll>().SetDescription(randomScript.description);
-        spawnedScrollTransform.GetComponent<ActivityScroll>().AssignCentralBankActivity(randomScript.isCentralBankActivity);
-
-
-        // Call SetDescriptionClientRpc on the client-side to set the description and bank activity
-        
-        spawnedScrollTransform.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.description);
-        spawnedScrollTransform.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomScript.isCentralBankActivity);
-
         NetworkObject spawnedNetworkScroll = spawnedScrollTransform.GetComponent<NetworkObject>();
+
+        // Spawn is like instantiate for network, we need to do this first and after that we can assign parameters to it !
         spawnedNetworkScroll.Spawn(true);
+        spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.description);
+        spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomScript.isCentralBankActivity);
+
 
         OnSpawnedScroll?.Invoke(this, EventArgs.Empty);
     }
