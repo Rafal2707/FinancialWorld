@@ -48,8 +48,8 @@ public class CentralBank : NetworkBehaviour
                 {
                     ScrollIncorrectlyAssignedServerRpc();
                 }
-                //Despawn?
-                Destroy(lastActivityScrollInside.gameObject);
+
+                DestroyActivityScroll(lastActivityScrollInside);
             }
         }
     }
@@ -63,9 +63,7 @@ public class CentralBank : NetworkBehaviour
     [ClientRpc]
     public void ScrollCorrectlyAssignedClientRpc()
     {
-        Debug.Log("Aktywnosc z banku centralnego");
         OnScrollCorrect?.Invoke(this, EventArgs.Empty);
-
         fireworksLeft.Play();
         fireworksRight.Play();
     }
@@ -79,7 +77,6 @@ public class CentralBank : NetworkBehaviour
     [ClientRpc]
     public void ScrollIncorrectlyAssignedClientRpc()
     {
-        Debug.Log("Aktywnosc z banku komercyjnego");
         OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
     }
 
@@ -94,8 +91,40 @@ public class CentralBank : NetworkBehaviour
         }
     }
 
+
     public Vector3 GetDropAreaPosition()
     {
         return dropArea.position;
     }
+
+
+
+
+
+
+    public void DestroyActivityScroll(ActivityScroll activityScroll)
+    {
+        DestroyActivityScrollServerRpc(activityScroll.NetworkObject);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyActivityScrollServerRpc(NetworkObjectReference activityScrollObjectReference)
+    {
+        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
+        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
+
+        ClearActivityScrollOnParentClientRpc(activityScrollObjectReference);
+        activityScroll.DestroySelf();
+    }
+
+    [ClientRpc]
+    public void ClearActivityScrollOnParentClientRpc(NetworkObjectReference activityScrollObjectReference)
+    {
+        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
+        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
+
+        activityScroll.ClearActivityScrollOnParent();
+    }
+
+
+
 }

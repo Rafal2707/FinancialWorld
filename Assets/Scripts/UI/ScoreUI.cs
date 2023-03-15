@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 public class ScoreUI : MonoBehaviour
@@ -58,4 +59,12 @@ public class ScoreUI : MonoBehaviour
     {
         return score;
     }
+    [ServerRpc(RequireOwnership = false)]
+    public void IncreaseScoreServerRpc()
+    {
+        score++;
+        scoreText.text = "SCORE: " + score;
+    }
+
+
 }

@@ -39,7 +39,6 @@ public class ActivityScroll : NetworkBehaviour
 
 
 
-
     public void Interact(IScrollParent activityScrollParent)
     {
         if (activityScrollParent.GetNetworkObject().IsOwner && !activityScrollParent.HasActivityScroll()) 
@@ -51,10 +50,7 @@ public class ActivityScroll : NetworkBehaviour
             DropScroll(activityScrollParent);
         }
     }
-    public void MoveTo(Vector3 position)
-    {
-        transform.position = new Vector3(position.x, 0.5f, position.z);
-    }
+
 
     private void PickUpScroll(IScrollParent activityScrollParent)
     {
@@ -64,7 +60,7 @@ public class ActivityScroll : NetworkBehaviour
         activityScrollParent.SetActivityScroll(this);
         scrollUI.HideEKeyUI();
         fliesParticles.Stop();
-        isDropped = false;
+
     }
 
 
@@ -75,7 +71,6 @@ public class ActivityScroll : NetworkBehaviour
             OnAnyDropScroll?.Invoke(this, EventArgs.Empty);
             activityScrollParent.ClearActivityScroll();
             SetScrollOrphanServerRpc(activityScrollParent.GetNetworkObject());
-            //transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
             followTransform.SetTargetTransform(transform);
 
             if (!activityScrollParent.IsInDroppingArea())
@@ -113,7 +108,7 @@ public class ActivityScroll : NetworkBehaviour
         {
             Debug.Log("IScrollParent already has a Scroll activity");
         }
-
+        isDropped = false;
         activityScrollParent.SetActivityScroll(this);
 
         followTransform.SetTargetTransform(activityScrollParent.GetScrollFollowTransform());
@@ -231,8 +226,23 @@ public class ActivityScroll : NetworkBehaviour
 
     //}
 
-   private void OnApplicationQuit()
+
+    public void DestroySelf()
     {
-        isQuitting = true;
+        Destroy(gameObject);
     }
+
+
+    public void ClearActivityScrollOnParent()
+    {
+        activityScrollParent.ClearActivityScroll();
+    }
+
+
+
+
+   //private void OnApplicationQuit()
+   // {
+   //     isQuitting = true;
+   // }
 }

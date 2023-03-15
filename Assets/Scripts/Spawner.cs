@@ -18,7 +18,6 @@ public class Spawner : NetworkBehaviour
     [SerializeField] List<ActivityScrollSO> allScrollsList;
     public List<ActivityScrollSO> spawnedScrollsList;
 
-    int randomNumber;
     float timeToSpawnMax = 10f;
     float timeToSpawn = 4f;
 

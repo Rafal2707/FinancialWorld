@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class CommercialBank : MonoBehaviour
+public class CommercialBank : NetworkBehaviour
 {
     [SerializeField] ScoreUI scoreUI;
     private ActivityScroll lastActivityScrollInside;
@@ -28,31 +29,54 @@ public class CommercialBank : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out Player player))
+        if (other.TryGetComponent(out IScrollParent activityScrollParent))
         {
-            player.SetIsInDroppingArea(true);
-            if (player.GetCurrentActivityScroll() != null)
+            activityScrollParent.SetIsInDroppingArea(true);
+            if (activityScrollParent.GetActivityScroll() != null)
             {
-                lastActivityScrollInside = player.GetCurrentActivityScroll();
+                lastActivityScrollInside = activityScrollParent.GetActivityScroll();
             }
 
             if(lastActivityScrollInside != null && lastActivityScrollInside.IsDropped())
             {
                 if (!lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    Debug.Log("Aktywnosc z banku komercyjnego");
-                    OnScrollCorrect?.Invoke(this, EventArgs.Empty);
-                    fireworksLeft.Play();
-                    fireworksRight.Play();
+                    ScrollCorrectlyAssignedServerRpc();
                 }
                 else if (lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    Debug.Log("Aktywnosc z banku centralnego");
-                    OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
+                    ScrollIncorrectlyAssignedServerRpc();
                 }
-                Destroy(lastActivityScrollInside.gameObject);
+                DestroyActivityScroll(lastActivityScrollInside);
             }
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ScrollCorrectlyAssignedServerRpc()
+    {
+        ScrollCorrectlyAssignedClientRpc();
+    }
+
+    [ClientRpc]
+    public void ScrollCorrectlyAssignedClientRpc()
+    {
+        OnScrollCorrect?.Invoke(this, EventArgs.Empty);
+
+        fireworksLeft.Play();
+        fireworksRight.Play();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ScrollIncorrectlyAssignedServerRpc()
+    {
+        ScrollIncorrectlyAssignedClientRpc();
+    }
+
+    [ClientRpc]
+    public void ScrollIncorrectlyAssignedClientRpc()
+    {
+        OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
     }
 
 
@@ -69,5 +93,31 @@ public class CommercialBank : MonoBehaviour
     public Vector3 GetDropAreaPosition()
     {
         return dropArea.position;
+    }
+
+
+
+
+    public void DestroyActivityScroll(ActivityScroll activityScroll)
+    {
+        DestroyActivityScrollServerRpc(activityScroll.NetworkObject);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyActivityScrollServerRpc(NetworkObjectReference activityScrollObjectReference)
+    {
+        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
+        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
+
+        ClearActivityScrollOnParentClientRpc(activityScrollObjectReference);
+        activityScroll.DestroySelf();
+    }
+
+    [ClientRpc]
+    public void ClearActivityScrollOnParentClientRpc(NetworkObjectReference activityScrollObjectReference)
+    {
+        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
+        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
+
+        activityScroll.ClearActivityScrollOnParent();
     }
 }
