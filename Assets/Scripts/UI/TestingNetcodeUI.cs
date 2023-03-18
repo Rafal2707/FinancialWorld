@@ -13,11 +13,11 @@ public class TestingNetcodeUI : MonoBehaviour
     private void Awake()
     {
         startHostButton.onClick.AddListener(() => { 
-            NetworkManager.Singleton.StartHost();
+            GameManagerMultiplayer.Instance.StartHost();
             Hide();
         });
         startClientButton.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartClient();
+            GameManagerMultiplayer.Instance.StartClient();
             Hide();
         });
     }

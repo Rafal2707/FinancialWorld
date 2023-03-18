@@ -25,6 +25,10 @@ public class Player : NetworkBehaviour, IScrollParent
     [SerializeField] private Transform scrollHoldPoint;
     [SerializeField] private LayerMask scrollLayerMask;
     [SerializeField] private LayerMask scrollDropAreaMask;
+    [SerializeField] private LayerMask collisionsLayerMask;
+
+    [SerializeField] private List<Vector3> spawnPositionList;
+
 
     public ActivityScroll currentActivityScroll;
 
@@ -32,7 +36,7 @@ public class Player : NetworkBehaviour, IScrollParent
 
     private bool isHoldingScroll;
     private float pickupRadius = 3f;
-    private bool isInDroppingArea;
+   [SerializeField] private bool isInDroppingArea;
 
 
     public override void OnNetworkSpawn()
@@ -42,9 +46,27 @@ public class Player : NetworkBehaviour, IScrollParent
             LocalInstance = this;
         }
 
+        transform.position = spawnPositionList[(int)OwnerClientId];
+
         OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
+
+        if(IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
     }
 
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    {
+        if(clientId == OwnerClientId && HasActivityScroll())
+        {
+            ActivityScroll activityScroll = GetActivityScroll();
+            activityScroll.GetScrollUI().HideDescriptionUI();
+            activityScroll.GetScrollUI().HideEKeyUI();
+            activityScroll.ClearActivityScrollOnParent();
+            activityScroll.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        }
+    }
 
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
@@ -95,7 +117,7 @@ public class Player : NetworkBehaviour, IScrollParent
         float moveDistance = moveSpeed * Time.deltaTime;
         float playerRadius = .5f;
         float playerHeight = .75f;
-        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance) || !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance, scrollLayerMask, QueryTriggerInteraction.Ignore);
+        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance) || !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance, collisionsLayerMask, QueryTriggerInteraction.Ignore);
 
 
         if (!canMove)
@@ -104,7 +126,7 @@ public class Player : NetworkBehaviour, IScrollParent
 
             //Attepmt only X movement
             Vector3 moveDirX = new Vector3(moveDir.x, 0f, 0f).normalized;
-            canMove = (moveDir.x < -0.5 || moveDir.x > 0.5) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            canMove = (moveDir.x < -0.5 || moveDir.x > 0.5) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance, collisionsLayerMask);
             if (canMove)
             {
                 //can move only on the X
@@ -117,7 +139,7 @@ public class Player : NetworkBehaviour, IScrollParent
                 //Attepmt only Z movement
                 Vector3 moveDirZ = new Vector3(0f, 0f, moveDir.z).normalized;
 
-                canMove = (moveDir.z < -0.5 || moveDir.z > 0.5) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+                canMove = (moveDir.z < -0.5 || moveDir.z > 0.5) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance, collisionsLayerMask);
 
                 if (canMove)
                 {
@@ -219,7 +241,7 @@ public class Player : NetworkBehaviour, IScrollParent
         return NetworkObject;
     }
 
-   
+
 
 
 }

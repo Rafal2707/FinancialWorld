@@ -41,45 +41,19 @@ public class CommercialBank : NetworkBehaviour
             {
                 if (!lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    ScrollCorrectlyAssignedServerRpc();
+                    OnScrollCorrect?.Invoke(this, EventArgs.Empty);
+                    fireworksLeft.Play();
+                    fireworksRight.Play();
                 }
                 else if (lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    ScrollIncorrectlyAssignedServerRpc();
+                    OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
+
                 }
                 DestroyActivityScroll(lastActivityScrollInside);
             }
         }
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ScrollCorrectlyAssignedServerRpc()
-    {
-        ScrollCorrectlyAssignedClientRpc();
-    }
-
-    [ClientRpc]
-    public void ScrollCorrectlyAssignedClientRpc()
-    {
-        OnScrollCorrect?.Invoke(this, EventArgs.Empty);
-
-        fireworksLeft.Play();
-        fireworksRight.Play();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ScrollIncorrectlyAssignedServerRpc()
-    {
-        ScrollIncorrectlyAssignedClientRpc();
-    }
-
-    [ClientRpc]
-    public void ScrollIncorrectlyAssignedClientRpc()
-    {
-        OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
-    }
-
-
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out Player player))

@@ -57,7 +57,6 @@ public class ActivityScroll : NetworkBehaviour
         OnAnyPickUpScroll?.Invoke(this, EventArgs.Empty);
         SetScrollParentServerRpc(activityScrollParent.GetNetworkObject());
         followTransform.SetTargetTransform(activityScrollParent.GetScrollFollowTransform());
-        activityScrollParent.SetActivityScroll(this);
         scrollUI.HideEKeyUI();
         fliesParticles.Stop();
 
@@ -69,7 +68,6 @@ public class ActivityScroll : NetworkBehaviour
         if (activityScrollParent.GetActivityScroll() == this)
         {
             OnAnyDropScroll?.Invoke(this, EventArgs.Empty);
-            activityScrollParent.ClearActivityScroll();
             SetScrollOrphanServerRpc(activityScrollParent.GetNetworkObject());
             followTransform.SetTargetTransform(transform);
 
@@ -238,11 +236,14 @@ public class ActivityScroll : NetworkBehaviour
         activityScrollParent.ClearActivityScroll();
     }
 
+    public ScrollUI GetScrollUI()
+    {
+        return scrollUI;
+    }
 
 
-
-   //private void OnApplicationQuit()
-   // {
-   //     isQuitting = true;
-   // }
+    //private void OnApplicationQuit()
+    // {
+    //     isQuitting = true;
+    // }
 }

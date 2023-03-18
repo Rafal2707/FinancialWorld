@@ -95,7 +95,6 @@ public class Spawner : NetworkBehaviour
         spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.description);
         spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomScript.isCentralBankActivity);
 
-
         OnSpawnedScroll?.Invoke(this, EventArgs.Empty);
     }
 

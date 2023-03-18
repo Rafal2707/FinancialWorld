@@ -4,13 +4,15 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class ScoreUI : MonoBehaviour
+public class ScoreUI : NetworkBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
 
     [SerializeField] CentralBank centralBank;
     [SerializeField] CommercialBank commercialBank;
-    private int score = 0;
+    
+
+    private NetworkVariable<int> score = new NetworkVariable<int>(0);
 
     private void Start()
     {
@@ -22,49 +24,77 @@ public class ScoreUI : MonoBehaviour
 
     private void CommercialBank_OnScrollIncorrect(object sender, System.EventArgs e)
     {
-        DecreaseScore();
+        DecreaseScoreServerRpc();
     }
 
     private void CommercialBank_OnScrollCorrect(object sender, System.EventArgs e)
     {
-        IncreaseScore();
+        IncreaseScoreServerRpc();
     }
 
     private void CentralBank_OnScrollIncorrect(object sender, System.EventArgs e)
     {
-        DecreaseScore();
+        DecreaseScoreServerRpc();
     }
 
     private void CentralBank_OnScrollCorrect(object sender, System.EventArgs e)
     {
-        IncreaseScore();
+        IncreaseScoreServerRpc();
     }
 
-    public void IncreaseScore()
+
+
+
+
+
+
+    [ClientRpc]
+
+    public void DecreaseScoreClientRpc()
     {
-        score++;
-        scoreText.text = "SCORE: " + score;
+        scoreText.text = "SCORE: " + score.Value;
+        
     }
 
-    public void DecreaseScore()
+    [ServerRpc(RequireOwnership = false)]
+    public void DecreaseScoreServerRpc()
     {
-        if(score > 0)
+        if (score.Value > 0)
         {
-            score--;
-            scoreText.text = "SCORE: " + score;
+            score.Value--;
+            scoreText.text = "SCORE: " + score.Value;
         }
     }
 
-    public int GetScore()
-    {
-        return score;
-    }
     [ServerRpc(RequireOwnership = false)]
     public void IncreaseScoreServerRpc()
     {
-        score++;
-        scoreText.text = "SCORE: " + score;
+        score.Value++;
+        IncreaseScoreClientRpc();
     }
 
+    [ClientRpc]
+    public void IncreaseScoreClientRpc()
+    {
+        scoreText.text = "SCORE: " + score.Value;
+    }
+    public int GetScore()
+    {
+        return score.Value;
+    }
+
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            IncreaseScoreServerRpc();
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            IncreaseScoreClientRpc();
+        }
+    }
 
 }

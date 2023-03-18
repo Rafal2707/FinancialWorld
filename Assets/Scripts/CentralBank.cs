@@ -17,7 +17,7 @@ public class CentralBank : NetworkBehaviour
     [SerializeField] private VisualEffect fireworksRight;
 
     [SerializeField] private Transform dropArea;
-
+    private bool executed = false;
 
     private void Start()
     {
@@ -26,27 +26,35 @@ public class CentralBank : NetworkBehaviour
     }
 
 
-
-
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out IScrollParent activityScrollParent))
+        
+        if (!executed && other.TryGetComponent(out IScrollParent activityScrollParent))
         {
+            Debug.Log("PLayer" + other.GetComponent<NetworkObject>().GetInstanceID());
             activityScrollParent.SetIsInDroppingArea(true);
+
             if (activityScrollParent.GetActivityScroll() != null)
             {
                 lastActivityScrollInside = activityScrollParent.GetActivityScroll();
+                Debug.Log(lastActivityScrollInside.GetComponent<ActivityScroll>().GetDescription());
+
             }
+
 
             if (lastActivityScrollInside != null && lastActivityScrollInside.IsDropped())
             {
+                executed = true;
+
                 if (lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    ScrollCorrectlyAssignedServerRpc();
+                                 
+                    CorrectActivityScrollServerRpc();
+
                 }
                 else if (!lastActivityScrollInside.IsCentralBankActivity())
                 {
-                    ScrollIncorrectlyAssignedServerRpc();
+                    OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
                 }
 
                 DestroyActivityScroll(lastActivityScrollInside);
@@ -54,53 +62,19 @@ public class CentralBank : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ScrollCorrectlyAssignedServerRpc()
+    [ServerRpc(RequireOwnership =false)]
+    public void CorrectActivityScrollServerRpc()
     {
-        ScrollCorrectlyAssignedClientRpc();
+        CorrectActivityScrollClientRpc();
     }
 
     [ClientRpc]
-    public void ScrollCorrectlyAssignedClientRpc()
+    public void CorrectActivityScrollClientRpc()
     {
         OnScrollCorrect?.Invoke(this, EventArgs.Empty);
         fireworksLeft.Play();
         fireworksRight.Play();
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ScrollIncorrectlyAssignedServerRpc()
-    {
-        ScrollIncorrectlyAssignedClientRpc();
-    }
-
-    [ClientRpc]
-    public void ScrollIncorrectlyAssignedClientRpc()
-    {
-        OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
-    }
-
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out Player player))
-        {
-            player.SetIsInDroppingArea(false);
-            fireworksLeft.Stop();
-            fireworksRight.Stop();
-        }
-    }
-
-
-    public Vector3 GetDropAreaPosition()
-    {
-        return dropArea.position;
-    }
-
-
-
-
-
 
     public void DestroyActivityScroll(ActivityScroll activityScroll)
     {
@@ -124,6 +98,35 @@ public class CentralBank : NetworkBehaviour
 
         activityScroll.ClearActivityScrollOnParent();
     }
+
+
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        executed = false;
+
+        if (other.TryGetComponent(out Player player))
+        {
+            lastActivityScrollInside = null;
+            player.SetIsInDroppingArea(false);
+            fireworksLeft.Stop();
+            fireworksRight.Stop();
+        }
+    }
+
+
+    public Vector3 GetDropAreaPosition()
+    {
+        return dropArea.position;
+    }
+
+
+
+
+
+
+ 
 
 
 
