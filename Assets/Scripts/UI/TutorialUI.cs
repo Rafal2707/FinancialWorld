@@ -39,7 +39,7 @@ public class TutorialUI : MonoBehaviour
 
     private void Instance_OnStateChanged(object sender, System.EventArgs e)
     {
-        if(GameManager.Instance.IsCountDownToStartActive())
+        if(GameManager.Instance.IsCountdownToStartActive())
         {
             Hide();
         }

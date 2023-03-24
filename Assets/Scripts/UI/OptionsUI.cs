@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -27,16 +27,26 @@ public class OptionsUI : MonoBehaviour
 
 
 
+
+    [SerializeField] private TextMeshProUGUI moveUpButtonText;
+    [SerializeField] private TextMeshProUGUI moveDownButtonText;
+    [SerializeField] private TextMeshProUGUI moveLeftButtonText;
+    [SerializeField] private TextMeshProUGUI moveRightButtonText;
+    [SerializeField] private TextMeshProUGUI interactButtonText;
+    [SerializeField] private TextMeshProUGUI pauseButtonText;
+    [SerializeField] private TextMeshProUGUI gamepadInteractButtonText;
+    [SerializeField] private TextMeshProUGUI gamepadPauseButtonText;
+
     [SerializeField] private TextMeshProUGUI soundEffectsText;
     [SerializeField] private TextMeshProUGUI musicText;
+    [SerializeField] private TextMeshProUGUI optionsText;
     [SerializeField] private TextMeshProUGUI moveUpText;
     [SerializeField] private TextMeshProUGUI moveDownText;
     [SerializeField] private TextMeshProUGUI moveLeftText;
     [SerializeField] private TextMeshProUGUI moveRightText;
-    [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI InteractText;
     [SerializeField] private TextMeshProUGUI pauseText;
-    [SerializeField] private TextMeshProUGUI gamepadInteractText;
-    [SerializeField] private TextMeshProUGUI gamepadPauseText;
+    [SerializeField] private TextMeshProUGUI closeButtonText;
 
 
     [SerializeField] private Transform pressToRebindKeyTransform;
@@ -100,6 +110,58 @@ public class OptionsUI : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnLocalGameUnpaused += GameManager_OnGameUnpaused;
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.PL:
+                optionsText.text = "OPCJE";
+                soundEffectsText.text = "EFEKTY DZWIĘKOWE: 5";
+                musicText.text = "MUZYKA: 5";
+                moveUpText.text = "DO PRZODU";
+                moveDownText.text = "DO TYŁU";
+                moveLeftText.text = "W LEWO";
+                moveRightText.text = "W PRAWO";
+                InteractText.text = "INTERAKCJA";
+                pauseText.text = "PAUZA";
+                closeButtonText.text = "ZAMKNIJ";
+                break;
+            case LanguageChoose.Language.ENG:
+                optionsText.text = "OPTIONS";
+                soundEffectsText.text = "SOUND EFFECTS: 5";
+                musicText.text = "MUSIC: 5";
+                moveUpText.text = "MOVE UP";
+                moveDownText.text = "MOVE DOWN";
+                moveLeftText.text = "MOVE LEFT";
+                moveRightText.text = "MOVE RIGHT";
+                InteractText.text = "INTERACT";
+                pauseText.text = "PAUSE";
+                closeButtonText.text = "CLOSE";
+                break;
+            case LanguageChoose.Language.DK:
+                optionsText.text = "MULIGHEDER";
+                soundEffectsText.text = "LYDVIRKNINGER: 5";
+                musicText.text = "MUSIK: 5";
+                moveUpText.text = "FLYT OP";
+                moveDownText.text = "FLYT NED";
+                moveLeftText.text = "BEVÆG DIG TIL VENSTRE";
+                moveRightText.text = "FLYT TIL HØJRE";
+                InteractText.text = "INTERAKTERE";
+                pauseText.text = "PAUSE";
+                closeButtonText.text = "TÆT";
+                break;
+            case LanguageChoose.Language.FIN:
+                optionsText.text = "VAIHTOEHDOT";
+                soundEffectsText.text = "ÄÄNIEFEKTIOT: 5";
+                musicText.text = "MUSIIKKI: 5";
+                moveUpText.text = "LIIKU YLÖS";
+                moveDownText.text = "SIIRRÄ ALAS";
+                moveLeftText.text = "SIIRRY VASEMMALLE";
+                moveRightText.text = "LIIKU OIKEALLE";
+                InteractText.text = "VUOROPUHELU";
+                pauseText.text = "TAUKO";
+                closeButtonText.text = "KIINNI";
+                break;
+        }
         UpdateVisual();
 
 
@@ -114,20 +176,30 @@ public class OptionsUI : MonoBehaviour
 
     private void UpdateVisual()
     {
-        soundEffectsText.text = "Sound Effects: " + Mathf.Round(SoundManager.Instance.GetVolume() * 10f);
-        musicText.text = "Music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
+        soundEffectsText.text = GetTextUntilNumberAppears(soundEffectsText.text) + ": " + Mathf.Round(SoundManager.Instance.GetVolume() * 10f);
+        musicText.text = GetTextUntilNumberAppears(musicText.text) + ": " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
 
 
-        moveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up);
-        moveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down);
-        moveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left);
-        moveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right);
-        interactText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
-        pauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
+        moveUpButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up);
+        moveDownButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down);
+        moveLeftButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left);
+        moveRightButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right);
+        interactButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
+        pauseButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
 
-        gamepadInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
-        gamepadPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
+        gamepadInteractButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
+        gamepadPauseButtonText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
 
+    }
+
+    private string GetTextUntilNumberAppears(string text)
+    {
+        int charLocation = text.IndexOf(":", StringComparison.Ordinal);
+        if (charLocation > 0)
+        {
+            return text.Substring(0, charLocation);
+        }
+        return string.Empty;
     }
 
 

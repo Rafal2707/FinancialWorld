@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -12,6 +12,8 @@ public class CharacterSelectUI : MonoBehaviour
     [SerializeField] private Button readyButton;
     [SerializeField] private TextMeshProUGUI lobbyNameText;
     [SerializeField] private TextMeshProUGUI lobbyCodeText;
+    [SerializeField] private TextMeshProUGUI mainMenuButtonText;
+    [SerializeField] private TextMeshProUGUI readyButtonText;
 
 
     private void Awake()
@@ -36,5 +38,26 @@ public class CharacterSelectUI : MonoBehaviour
 
         lobbyNameText.text = lobby.Name;
         lobbyCodeText.text = lobby.LobbyCode;
+
+
+        switch (LanguageChoose.Instance.currentLanguage)
+        {
+            case LanguageChoose.Language.PL:
+                mainMenuButtonText.text = "GŁÓWNE MENU";
+                readyButtonText.text = "START";
+                break;
+            case LanguageChoose.Language.ENG:
+                mainMenuButtonText.text = "MAIN MENU";
+                readyButtonText.text = "START";
+                break;
+            case LanguageChoose.Language.DK:
+                mainMenuButtonText.text = "HOVEDMENU";
+                readyButtonText.text = "START";
+                break;
+            case LanguageChoose.Language.FIN:
+                mainMenuButtonText.text = "PÄÄVALIKKO";
+                readyButtonText.text = "START";
+                break;
+        }
     }
 }

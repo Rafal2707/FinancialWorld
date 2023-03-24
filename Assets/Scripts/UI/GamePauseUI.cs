@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,11 @@ public class GamePauseUI : MonoBehaviour
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button optionsButton;
+
+    [SerializeField] private TextMeshProUGUI pauseText;
+    [SerializeField] private TextMeshProUGUI resumeButtonText;
+    [SerializeField] private TextMeshProUGUI optionsButtonText;
+    [SerializeField] private TextMeshProUGUI mainMenuButtonText;
 
 
 
@@ -33,6 +39,35 @@ public class GamePauseUI : MonoBehaviour
     {
         GameManager.Instance.OnLocalGamePaused += GameManager_OnLocalGamePaused;
         GameManager.Instance.OnLocalGameUnpaused += GameManager_OnLocalGameUnpaused;
+
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.PL:
+                pauseText.text = "PAUZA";
+                resumeButtonText.text = "WZNÓW";
+                optionsButtonText.text = "OPCJE";
+                mainMenuButtonText.text = "MENU GŁÓWNE";
+                break;
+            case LanguageChoose.Language.ENG:
+                pauseText.text = "PAUSE";
+                resumeButtonText.text = "RESUME";
+                optionsButtonText.text = "OPTIONS";
+                mainMenuButtonText.text = "MAIN MENU";
+                break;
+            case LanguageChoose.Language.DK:
+                pauseText.text = "PAUSE";
+                resumeButtonText.text = "GENOPTAG";
+                optionsButtonText.text = "MULIGHEDER";
+                mainMenuButtonText.text = "HOVEDMENU";
+                break;
+            case LanguageChoose.Language.FIN:
+                pauseText.text = "TAUKO";
+                resumeButtonText.text = "JATKAA";
+                optionsButtonText.text = "VAIHTOEHDOT";
+                mainMenuButtonText.text = "PÄÄVALIKKO";
+                break;
+        }
 
         Hide();
     }

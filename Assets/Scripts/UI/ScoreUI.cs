@@ -20,6 +20,22 @@ public class ScoreUI : NetworkBehaviour
         centralBank.OnScrollIncorrect += CentralBank_OnScrollIncorrect;
         commercialBank.OnScrollCorrect += CommercialBank_OnScrollCorrect;
         commercialBank.OnScrollIncorrect += CommercialBank_OnScrollIncorrect;
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.PL:
+                scoreText.text = "WYNIK:";
+                break;
+            case LanguageChoose.Language.ENG:
+                scoreText.text = "SCORE:";
+                break;
+            case LanguageChoose.Language.DK:
+                scoreText.text = "SCORE:";
+                break;
+            case LanguageChoose.Language.FIN:
+                scoreText.text = "PISTEET:";
+                break;
+        }
     }
 
     private void CommercialBank_OnScrollIncorrect(object sender, System.EventArgs e)
@@ -44,15 +60,23 @@ public class ScoreUI : NetworkBehaviour
 
 
 
-
-
-
+    private string GetScoreTextUntilNumberAppears()
+    {
+        int charLocation = scoreText.text.IndexOf(":", System.StringComparison.Ordinal);
+        if(charLocation > 0) 
+        {
+            return scoreText.text.Substring(0, charLocation);
+        }
+        return string.Empty;
+    }
 
     [ClientRpc]
 
     public void DecreaseScoreClientRpc()
     {
-        scoreText.text = "SCORE: " + score.Value;
+
+
+        scoreText.text = GetScoreTextUntilNumberAppears() + score.Value;
         
     }
 
@@ -62,7 +86,7 @@ public class ScoreUI : NetworkBehaviour
         if (score.Value > 0)
         {
             score.Value--;
-            scoreText.text = "SCORE: " + score.Value;
+            scoreText.text = GetScoreTextUntilNumberAppears() + ": " + score.Value;
         }
     }
 
@@ -76,7 +100,7 @@ public class ScoreUI : NetworkBehaviour
     [ClientRpc]
     public void IncreaseScoreClientRpc()
     {
-        scoreText.text = "SCORE: " + score.Value;
+        scoreText.text = GetScoreTextUntilNumberAppears() + ": " +  score.Value;
     }
     public int GetScore()
     {

@@ -60,7 +60,6 @@ public class GameManagerMultiplayer : NetworkBehaviour
     public void SetPlayerName(string playerName)
     {
         this.playerName = playerName;
-
         PlayerPrefs.SetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, playerName);
     }
 

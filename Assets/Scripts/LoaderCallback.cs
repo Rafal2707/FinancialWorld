@@ -6,12 +6,12 @@ public class LoaderCallback : MonoBehaviour
 {
     private bool isFirstUpdate = true;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(isFirstUpdate)
+        if (isFirstUpdate)
         {
             isFirstUpdate = false;
+
             Loader.LoaderCallback();
         }
     }

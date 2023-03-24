@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Spawner : NetworkBehaviour
 {
+
+
 
     public static Spawner Instance { get; private set; }
 
@@ -30,7 +33,11 @@ public class Spawner : NetworkBehaviour
     }
     private void Start()
     {
+
+        
+
         spawnedScrollsList = new List<ActivityScrollSO>();
+
 
         timeToSpawn = 3f;
     }
@@ -92,9 +99,23 @@ public class Spawner : NetworkBehaviour
 
         // Spawn is like instantiate for network, we need to do this first and after that we can assign parameters to it !
         spawnedNetworkScroll.Spawn(true);
-        spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.description);
-        spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomScript.isCentralBankActivity);
 
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.DK:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionDK);
+                break;
+            case LanguageChoose.Language.PL:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionPL);
+                break;
+            case LanguageChoose.Language.ENG:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionENG);
+                break;
+            case LanguageChoose.Language.FIN:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionFIN);
+                break;
+        }
+        spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomScript.isCentralBankActivity);
         OnSpawnedScroll?.Invoke(this, EventArgs.Empty);
     }
 

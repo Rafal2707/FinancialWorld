@@ -11,6 +11,11 @@ public class LobbyCreateUI : MonoBehaviour
     [SerializeField] private Button createPrivateButton;
     [SerializeField] private TMP_InputField lobbyNameInputField;
 
+    [SerializeField] private TextMeshProUGUI createPublicButtonText;
+    [SerializeField] private TextMeshProUGUI createPrivateButtonText;
+    [SerializeField] private TextMeshProUGUI createLobbyText;
+
+
 
     private void Awake()
     {
@@ -27,6 +32,30 @@ public class LobbyCreateUI : MonoBehaviour
 
     private void Start()
     {
+
+        switch (LanguageChoose.Instance.currentLanguage)
+        {
+            case LanguageChoose.Language.PL:
+                createPublicButtonText.text = "PUBLICZNE";
+                createPrivateButtonText.text = "PRYWATNE";
+                createLobbyText.text = "STWÓRZ LOBBY";
+                break;
+            case LanguageChoose.Language.ENG:
+                createPublicButtonText.text = "PUBLIC";
+                createPrivateButtonText.text = "PRIVATE";
+                createLobbyText.text = "CREATE LOBBY";
+                break;
+            case LanguageChoose.Language.DK:
+                createPublicButtonText.text = "OFFENTLIG";
+                createPrivateButtonText.text = "PRIVAT";
+                createLobbyText.text = "OPRET LOBBY";
+                break;
+            case LanguageChoose.Language.FIN:
+                createPublicButtonText.text = "JULKINEN";
+                createPrivateButtonText.text = "PRIVATE";
+                createLobbyText.text = "LUO AULA";
+                break;
+        }
         Hide();
     }
 

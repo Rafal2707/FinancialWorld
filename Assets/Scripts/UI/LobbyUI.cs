@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Services.Lobbies.Models;
@@ -16,6 +16,12 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private LobbyCreateUI lobbyCreateUI;
     [SerializeField] private Transform lobbyContainer;
     [SerializeField] private Transform lobbyTemplate;
+
+
+    [SerializeField] private TextMeshProUGUI mainMenuButtonText;
+    [SerializeField] private TextMeshProUGUI createLobbyButtonText;
+    [SerializeField] private TextMeshProUGUI quickJoinButtonText;
+    [SerializeField] private TextMeshProUGUI joinCodeButtonText;
 
     private void Awake()
     {
@@ -49,6 +55,35 @@ public class LobbyUI : MonoBehaviour
 
         GameLobby.Instance.OnLobbyListChanged += GameLobby_OnLobbyListChanged;
         UpdateLobbyList(new List<Lobby>());
+
+
+        switch (LanguageChoose.Instance.currentLanguage)
+        {
+            case LanguageChoose.Language.PL:
+                mainMenuButtonText.text = "GŁÓWNE MENU";
+                createLobbyButtonText.text = "STWÓRZ LOBBY";
+                quickJoinButtonText.text = "DOŁĄCZ LOSOWO";
+                joinCodeButtonText.text = "DOŁĄCZ PRZEZ KOD";
+                break;
+            case LanguageChoose.Language.ENG:
+                mainMenuButtonText.text = "MAIN MENU";
+                createLobbyButtonText.text = "CREATE LOBBY";
+                quickJoinButtonText.text = "QUICK JOIN";
+                joinCodeButtonText.text = "JOIN BY CODE";
+                break;
+            case LanguageChoose.Language.DK:
+                mainMenuButtonText.text = "HOVEDMENU";
+                createLobbyButtonText.text = "OPRET LOBBY";
+                quickJoinButtonText.text = "HURTIG JOIN";
+                joinCodeButtonText.text = "DELTAG MED KODE";
+                break;
+            case LanguageChoose.Language.FIN:
+                mainMenuButtonText.text = "PÄÄVALIKKO";
+                createLobbyButtonText.text = "LUO AULA";
+                quickJoinButtonText.text = "PIKALIITTY";
+                joinCodeButtonText.text = "LIITY KOODIN MUKAAN";
+                break;
+        }
     }
 
     private void GameLobby_OnLobbyListChanged(object sender, GameLobby.OnLobbyListChangedEventArgs e)

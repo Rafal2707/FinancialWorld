@@ -38,6 +38,7 @@ public class Player : NetworkBehaviour, IScrollParent
     private float pickupRadius = 3f;
    [SerializeField] private bool isInDroppingArea;
 
+    
 
     public override void OnNetworkSpawn()
     {
@@ -173,8 +174,12 @@ public class Player : NetworkBehaviour, IScrollParent
     private void Start()
     {
         
-
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+
+        if (IsOwner)
+        {
+            CameraController.Instance.SetCameraTarget(transform);
+        }
     }
 
     private void Update()

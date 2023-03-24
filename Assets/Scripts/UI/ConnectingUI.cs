@@ -1,14 +1,33 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ConnectingUI : MonoBehaviour
 {
-
+    [SerializeField] private TextMeshProUGUI connectingText;
     private void Start()
     {
         GameManagerMultiplayer.Instance.OnTryingToJoinGame += GameManager_OnTryingToJoinGame;
         GameManagerMultiplayer.Instance.OnFailedToJoinGame += GameManager_OnFailedToJoinGame;
+
+        switch (LanguageChoose.Instance.currentLanguage)
+        {
+            case LanguageChoose.Language.PL:
+                connectingText.text = "ŁĄCZENIE...";
+                break;
+            case LanguageChoose.Language.ENG:
+                connectingText.text = "CONNECTING...";
+                break;
+            case LanguageChoose.Language.DK:
+                connectingText.text = "TILSLUTNING...";
+                break;
+            case LanguageChoose.Language.FIN:
+                connectingText.text = "YHTEYTTÄ...";
+                break;
+        }
+
+
         Hide();
     }
 
