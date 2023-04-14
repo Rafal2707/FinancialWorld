@@ -24,7 +24,7 @@ public class Player : NetworkBehaviour, IScrollParent
     private Vector3 lastInteractDir;
     [SerializeField] private Transform scrollHoldPoint;
     [SerializeField] private LayerMask scrollLayerMask;
-    [SerializeField] private LayerMask scrollDropAreaMask;
+    //[SerializeField] private LayerMask scrollDropAreaMask;
     [SerializeField] private LayerMask collisionsLayerMask;
 
     [SerializeField] private List<Vector3> spawnPositionList;
@@ -32,13 +32,20 @@ public class Player : NetworkBehaviour, IScrollParent
 
     public ActivityScroll currentActivityScroll;
 
+    public ScoreUI scoreUI;
+
+
+    public bool isInCentralBankDroppingArea;
+
+    public bool isInCommercialBankDroppingArea;
+
+
 
 
     private bool isHoldingScroll;
     private float pickupRadius = 3f;
    [SerializeField] private bool isInDroppingArea;
 
-    
 
     public override void OnNetworkSpawn()
     {
@@ -117,7 +124,7 @@ public class Player : NetworkBehaviour, IScrollParent
 
         float moveDistance = moveSpeed * Time.deltaTime;
         float playerRadius = .5f;
-        float playerHeight = .75f;
+        float playerHeight = .70f;
         bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance) || !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance, collisionsLayerMask, QueryTriggerInteraction.Ignore);
 
 
@@ -176,22 +183,41 @@ public class Player : NetworkBehaviour, IScrollParent
         
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
 
-        if (IsOwner)
+        if (IsLocalPlayer)
         {
             CameraController.Instance.SetCameraTarget(transform);
         }
+
+        scoreUI = FindAnyObjectByType<ScoreUI>();
+
+
+
     }
 
     private void Update()
     {
-        if(!IsOwner)
+        if (!IsLocalPlayer)
         {
             return;
         }
 
         HandleMovement();
 
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            scoreUI.IncreaseServerRpc();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("Decreasing");
+        }
     }
+
+
+
+
+
 
     public bool IsHoldingScroll()
     {
@@ -246,7 +272,23 @@ public class Player : NetworkBehaviour, IScrollParent
         return NetworkObject;
     }
 
+    public bool IsInCentralBankDroppingArea()
+    {
+        return isInCentralBankDroppingArea;
+    }
 
+    public void SetIsInCentralBankDroppingArea(bool isInCentralBankDroppingArea)
+    {
+        this.isInCentralBankDroppingArea = isInCentralBankDroppingArea;
+    }
 
+    public bool IsInCommercialBankDroppingArea()
+    {
+        return isInCommercialBankDroppingArea;
+    }
 
+    public void SetIsInCommercialBankDroppingArea(bool isInCommercialBankDroppingArea)
+    {
+        this.isInCommercialBankDroppingArea = isInCommercialBankDroppingArea;
+    }
 }

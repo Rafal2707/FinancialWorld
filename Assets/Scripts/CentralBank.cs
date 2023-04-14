@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,115 +12,84 @@ public class CentralBank : NetworkBehaviour
     public event EventHandler OnScrollCorrect;
     public event EventHandler OnScrollIncorrect;
 
-    [SerializeField] ScoreUI scoreUI;
+    
     private ActivityScroll lastActivityScrollInside;
     [SerializeField] private VisualEffect fireworksLeft;
     [SerializeField] private VisualEffect fireworksRight;
 
     [SerializeField] private Transform dropArea;
-    private bool executed = false;
+
+
 
     private void Start()
     {
         fireworksLeft.Stop();
         fireworksRight.Stop();
+
+        ActivityScroll.OnCentralBankCorrectScroll += ActivityScroll_OnCorrectScroll;
+        ActivityScroll.OnCentralBankWrongScroll += ActivityScroll_OnWrongScroll;
     }
 
-
-    private void OnTriggerStay(Collider other)
+    private void ActivityScroll_OnWrongScroll(object sender, EventArgs e)
     {
-        
-        if (!executed && other.TryGetComponent(out IScrollParent activityScrollParent))
+        ShowVisualWrongServerRpc();
+    }
+
+    private void ActivityScroll_OnCorrectScroll(object sender, EventArgs e)
+    {
+        ShowVisualCorrectServerRpc();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.TryGetComponent(out Player player))
         {
-            Debug.Log("PLayer" + other.GetComponent<NetworkObject>().GetInstanceID());
-            activityScrollParent.SetIsInDroppingArea(true);
-
-            if (activityScrollParent.GetActivityScroll() != null)
-            {
-                lastActivityScrollInside = activityScrollParent.GetActivityScroll();
-                Debug.Log(lastActivityScrollInside.GetComponent<ActivityScroll>().GetDescription());
-
-            }
-
-
-            if (lastActivityScrollInside != null && lastActivityScrollInside.IsDropped())
-            {
-                executed = true;
-
-                if (lastActivityScrollInside.IsCentralBankActivity())
-                {
-                                 
-                    CorrectActivityScrollServerRpc();
-
-                }
-                else if (!lastActivityScrollInside.IsCentralBankActivity())
-                {
-                    OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
-                }
-
-                DestroyActivityScroll(lastActivityScrollInside);
-            }
+            player.SetIsInDroppingArea(true);
+            player.SetIsInCentralBankDroppingArea(true);
+            player.isInCentralBankDroppingArea= true;
         }
     }
 
+
     [ServerRpc(RequireOwnership =false)]
-    public void CorrectActivityScrollServerRpc()
+    public void ShowVisualCorrectServerRpc()
     {
-        CorrectActivityScrollClientRpc();
+        ShowVisualCorrectClientRpc();
     }
 
     [ClientRpc]
-    public void CorrectActivityScrollClientRpc()
+    public void ShowVisualCorrectClientRpc()
     {
-        OnScrollCorrect?.Invoke(this, EventArgs.Empty);
         fireworksLeft.Play();
         fireworksRight.Play();
+        OnScrollCorrect?.Invoke(this, EventArgs.Empty);
     }
 
-    public void DestroyActivityScroll(ActivityScroll activityScroll)
-    {
-        DestroyActivityScrollServerRpc(activityScroll.NetworkObject);
-    }
     [ServerRpc(RequireOwnership = false)]
-    private void DestroyActivityScrollServerRpc(NetworkObjectReference activityScrollObjectReference)
+    public void ShowVisualWrongServerRpc()
     {
-        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
-        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
-
-        ClearActivityScrollOnParentClientRpc(activityScrollObjectReference);
-        activityScroll.DestroySelf();
+        ShowVisualWrongClientRpc();
     }
 
     [ClientRpc]
-    public void ClearActivityScrollOnParentClientRpc(NetworkObjectReference activityScrollObjectReference)
+    public void ShowVisualWrongClientRpc()
     {
-        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
-        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
-
-        activityScroll.ClearActivityScrollOnParent();
+        OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
     }
-
-
 
 
     private void OnTriggerExit(Collider other)
     {
-        executed = false;
-
         if (other.TryGetComponent(out Player player))
         {
             lastActivityScrollInside = null;
             player.SetIsInDroppingArea(false);
+            player.SetIsInCentralBankDroppingArea(false);
             fireworksLeft.Stop();
             fireworksRight.Stop();
         }
     }
 
-
-    public Vector3 GetDropAreaPosition()
-    {
-        return dropArea.position;
-    }
 
 
 

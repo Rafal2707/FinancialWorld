@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ActivityScroll : NetworkBehaviour
 {
@@ -10,7 +11,30 @@ public class ActivityScroll : NetworkBehaviour
     public static event EventHandler OnAnyPickUpScroll;
     public static event EventHandler OnAnyDropScroll;
 
+
+    public static event EventHandler OnCentralBankCorrectScroll;
+    public static event EventHandler OnCentralBankWrongScroll;
+
+    public static event EventHandler OnCommercialBankCorrectScroll;
+    public static event EventHandler OnCommercialBankWrongScroll;
+
+    private int number;
+    public ActivityScrollSO GetActivityScrollSOFromActivityScroll(ActivityScroll activityScroll)
+    {
+        foreach(ActivityScrollSO activityScrollSO in Spawner.Instance.allScrollsList)
+        {
+            if(number == activityScrollSO.number)
+            {
+                return activityScrollSO;
+            }
+        }
+        return default;
+    }
+
+
     public FollowTransform followTransform;
+
+    public ScoreUI scoreUI;
 
     private void Awake()
     {
@@ -26,6 +50,8 @@ public class ActivityScroll : NetworkBehaviour
     private bool isCentralBankActivity;
     private string description;
     private bool isDropped = true;
+
+
     bool isQuitting;
     [SerializeField] private Transform scrollHoldPoint;
     [SerializeField] private LayerMask scrollLayerMask;
@@ -37,15 +63,45 @@ public class ActivityScroll : NetworkBehaviour
     private IScrollParent activityScrollParent;
 
 
+    private void Start()
+    {
+        fliesParticles.gameObject.SetActive(true);
+        scoreUI = FindAnyObjectByType<ScoreUI>();
 
+
+        
+
+    }
+
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        //switch (LanguageChoose.Instance.GetCurrentLanguage())
+        //{
+        //    case LanguageChoose.Language.DK:
+        //        description = GetActivityScrollSOFromActivityScroll(this).descriptionDK;
+        //        break;
+        //    case LanguageChoose.Language.PL:
+        //        description = GetActivityScrollSOFromActivityScroll(this).descriptionPL;
+        //        break;
+        //    case LanguageChoose.Language.ENG:
+        //        description = GetActivityScrollSOFromActivityScroll(this).descriptionENG;
+        //        break;
+        //    case LanguageChoose.Language.FIN:
+        //        description = GetActivityScrollSOFromActivityScroll(this).descriptionFIN;
+        //        break;
+        //}
+    }
 
     public void Interact(IScrollParent activityScrollParent)
     {
-        if (activityScrollParent.GetNetworkObject().IsOwner && !activityScrollParent.HasActivityScroll()) 
+        if (activityScrollParent.GetNetworkObject().IsOwner && !activityScrollParent.HasActivityScroll() && isDropped) 
         {
             PickUpScroll(activityScrollParent);
         }
-        else if (activityScrollParent.GetNetworkObject().IsOwner && activityScrollParent.HasActivityScroll())
+        else if (activityScrollParent.GetNetworkObject().IsOwner && activityScrollParent.HasActivityScroll() && !isDropped)
         {
             DropScroll(activityScrollParent);
         }
@@ -54,12 +110,12 @@ public class ActivityScroll : NetworkBehaviour
 
     private void PickUpScroll(IScrollParent activityScrollParent)
     {
+
         OnAnyPickUpScroll?.Invoke(this, EventArgs.Empty);
         SetScrollParentServerRpc(activityScrollParent.GetNetworkObject());
         followTransform.SetTargetTransform(activityScrollParent.GetScrollFollowTransform());
         scrollUI.HideEKeyUI();
         fliesParticles.Stop();
-
     }
 
 
@@ -77,10 +133,43 @@ public class ActivityScroll : NetworkBehaviour
                 dropParticles.Play();
             }
 
-            isDropped = true;
 
+            // is In central Bank area
+            if (activityScrollParent.IsInCentralBankDroppingArea() && isCentralBankActivity)
+            {
+                scoreUI.IncreaseServerRpc();
+                DestroyActivityScroll(this);
+                OnCentralBankCorrectScroll?.Invoke(this, EventArgs.Empty);
+            }
+            else if (activityScrollParent.IsInCentralBankDroppingArea() && !isCentralBankActivity)
+            {
+                scoreUI.DecreaseServerRpc();
+                DestroyActivityScroll(this);
+                OnCentralBankWrongScroll?.Invoke(this, EventArgs.Empty);
+
+            }
+
+            // is In Commercial Bank area
+            else if (activityScrollParent.IsInCommercialBankDroppingArea() && !isCentralBankActivity)
+            {
+                scoreUI.IncreaseServerRpc();
+                DestroyActivityScroll(this);
+                OnCommercialBankCorrectScroll?.Invoke(this, EventArgs.Empty);
+
+            }
+            else if (activityScrollParent.IsInCommercialBankDroppingArea() && isCentralBankActivity)
+            {
+                scoreUI.DecreaseServerRpc();
+                DestroyActivityScroll(this);
+                OnCommercialBankWrongScroll?.Invoke(this, EventArgs.Empty);
+
+            }
         }
     }
+
+
+
+
 
     [ServerRpc(RequireOwnership = false)]
     private void SetScrollParentServerRpc(NetworkObjectReference activityScrollParentNetworkObjectReference)
@@ -108,6 +197,7 @@ public class ActivityScroll : NetworkBehaviour
         }
         isDropped = false;
         activityScrollParent.SetActivityScroll(this);
+        Debug.Log("Set Up the activityscroll");
 
         followTransform.SetTargetTransform(activityScrollParent.GetScrollFollowTransform());
     }
@@ -131,11 +221,94 @@ public class ActivityScroll : NetworkBehaviour
         }
 
         activityScrollParent.SetActivityScroll(null);
-
+        Debug.Log("dropped and set actiivty scroll to null");
         followTransform.SetTargetTransform(null);
+        isDropped = true;
         transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 
     }
+
+
+
+    public void DestroyActivityScroll(ActivityScroll activityScroll)
+    {
+        if (activityScroll.NetworkObject.IsSpawned)
+        {
+            Debug.Log("Spawned");
+            DestroyActivityScrollServerRpc(activityScroll.NetworkObject);
+        }
+        else
+        {
+            Debug.Log("NOT Spawned");
+
+            // handle the case where the object is not spawned
+        }
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void DestroyActivityScrollServerRpc(NetworkObjectReference activityScrollObjectReference)
+    {
+        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
+
+
+        if (activityScrollNetworkObject == null)
+        {
+            //this object is already destroyed
+            return;
+        }
+        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
+
+
+        ClearActivityScrollOnParentClientRpc(activityScrollObjectReference);
+        activityScroll.DestroySelf();
+    }
+
+    [ClientRpc]
+    public void ClearActivityScrollOnParentClientRpc(NetworkObjectReference activityScrollObjectReference)
+    {
+        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
+        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
+
+        activityScroll.ClearActivityScrollOnParent();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,6 +339,20 @@ public class ActivityScroll : NetworkBehaviour
     }
 
 
+
+    public void AssignNumber(int number)
+    {
+        this.number = number;
+    }
+
+
+    [ClientRpc]
+    public void AssignNumberClientRpc(int number)
+    {
+        AssignNumber(number);
+    }
+
+
     public void SetDescription(string description)
     {
         this.description = description;
@@ -189,41 +376,38 @@ public class ActivityScroll : NetworkBehaviour
     }
 
 
-
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.TryGetComponent(out Player player))
         {
-            if (!player.IsHoldingScroll())
+            if (isDropped)
             {
-                scrollUI.ShowEKeyUI();
                 scrollUI.ShowDescriptionUI();
+                scrollUI.ShowEKeyUI();
+            }
+            else if(player.HasActivityScroll() && !isDropped)
+            {
+                scrollUI.ShowDescriptionUI();
+                scrollUI.HideEKeyUI();
+            }
+            else
+            {
+                scrollUI.HideDescriptionUI();
+                scrollUI.HideEKeyUI();
             }
         }
     }
 
+
+
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent(out Player player))
+        if (other.TryGetComponent(out Player player) && isDropped)
         {
             scrollUI.HideEKeyUI();
             scrollUI.HideDescriptionUI();
         }
     }
-
-
-    //bool "IsQuitting" is set to overcome the issue with uncleared gameObjects (Puffs) after destroy is called
-    ////private void OnDestroy()
-    ////{
-    ////    if (!isQuitting)
-    ////    {
-    ////        GameObject dropPuffVFX = Instantiate(explosionParticles, transform.position, Quaternion.identity);
-    ////        Destroy(dropPuffVFX, 0.75f);
-    ////    }
-
-    //}
-
 
     public void DestroySelf()
     {
@@ -241,9 +425,4 @@ public class ActivityScroll : NetworkBehaviour
         return scrollUI;
     }
 
-
-    //private void OnApplicationQuit()
-    // {
-    //     isQuitting = true;
-    // }
 }

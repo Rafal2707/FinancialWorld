@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public interface IScrollParent
 {
@@ -21,5 +22,15 @@ public interface IScrollParent
     public bool IsInDroppingArea();
 
     public void SetIsInDroppingArea(bool isInDroppingArea);
+
+
+    public bool IsInCentralBankDroppingArea();
+    public void SetIsInCentralBankDroppingArea(bool isInCentralBankDroppingArea);
+
+    public bool IsInCommercialBankDroppingArea();
+
+    public void SetIsInCommercialBankDroppingArea(bool isInCommercialBankDroppingArea);
+
+
 
 }

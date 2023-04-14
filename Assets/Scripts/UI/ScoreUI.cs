@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.CullingGroup;
 
 public class ScoreUI : NetworkBehaviour
 {
@@ -10,115 +12,60 @@ public class ScoreUI : NetworkBehaviour
 
     [SerializeField] CentralBank centralBank;
     [SerializeField] CommercialBank commercialBank;
-    
-
-    private NetworkVariable<int> score = new NetworkVariable<int>(0);
-
-    private void Start()
-    {
-        centralBank.OnScrollCorrect += CentralBank_OnScrollCorrect;
-        centralBank.OnScrollIncorrect += CentralBank_OnScrollIncorrect;
-        commercialBank.OnScrollCorrect += CommercialBank_OnScrollCorrect;
-        commercialBank.OnScrollIncorrect += CommercialBank_OnScrollIncorrect;
-
-        switch (LanguageChoose.Instance.GetCurrentLanguage())
-        {
-            case LanguageChoose.Language.PL:
-                scoreText.text = "WYNIK:";
-                break;
-            case LanguageChoose.Language.ENG:
-                scoreText.text = "SCORE:";
-                break;
-            case LanguageChoose.Language.DK:
-                scoreText.text = "SCORE:";
-                break;
-            case LanguageChoose.Language.FIN:
-                scoreText.text = "PISTEET:";
-                break;
-        }
-    }
-
-    private void CommercialBank_OnScrollIncorrect(object sender, System.EventArgs e)
-    {
-        DecreaseScoreServerRpc();
-    }
-
-    private void CommercialBank_OnScrollCorrect(object sender, System.EventArgs e)
-    {
-        IncreaseScoreServerRpc();
-    }
-
-    private void CentralBank_OnScrollIncorrect(object sender, System.EventArgs e)
-    {
-        DecreaseScoreServerRpc();
-    }
-
-    private void CentralBank_OnScrollCorrect(object sender, System.EventArgs e)
-    {
-        IncreaseScoreServerRpc();
-    }
 
 
+    [SerializeField] public NetworkVariable<int> score = new NetworkVariable<int>(0);
 
-    private string GetScoreTextUntilNumberAppears()
-    {
-        int charLocation = scoreText.text.IndexOf(":", System.StringComparison.Ordinal);
-        if(charLocation > 0) 
-        {
-            return scoreText.text.Substring(0, charLocation);
-        }
-        return string.Empty;
-    }
-
-    [ClientRpc]
-
-    public void DecreaseScoreClientRpc()
-    {
-
-
-        scoreText.text = GetScoreTextUntilNumberAppears() + score.Value;
-        
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void DecreaseScoreServerRpc()
-    {
-        if (score.Value > 0)
-        {
-            score.Value--;
-            scoreText.text = GetScoreTextUntilNumberAppears() + ": " + score.Value;
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void IncreaseScoreServerRpc()
-    {
-        score.Value++;
-        IncreaseScoreClientRpc();
-    }
-
-    [ClientRpc]
-    public void IncreaseScoreClientRpc()
-    {
-        scoreText.text = GetScoreTextUntilNumberAppears() + ": " +  score.Value;
-    }
     public int GetScore()
     {
         return score.Value;
     }
 
+ 
 
-
-    private void Update()
+    public override void OnNetworkSpawn()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            IncreaseScoreServerRpc();
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            IncreaseScoreClientRpc();
-        }
+        score.OnValueChanged += OnStateChanged;
     }
+
+    public override void OnNetworkDespawn()
+    {
+        score.OnValueChanged -= OnStateChanged;
+    }
+
+    public void OnStateChanged(int previous, int current)
+    {
+        UpdateScoreTextClientRpc(current);        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void IncreaseServerRpc()
+    {
+        // this will cause a replication over the network
+        // and ultimately invoke `OnValueChanged` on receivers
+
+        Debug.Log("Increased from server");
+        score.Value++;
+        scoreText.text = score.Value.ToString();
+    }
+
+    [ClientRpc]
+    public void UpdateScoreTextClientRpc(int currentValue)
+    {
+        scoreText.text = currentValue.ToString();
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DecreaseServerRpc()
+    {
+        if(score.Value > 0)
+        {
+            score.Value--;
+        }
+        scoreText.text = score.Value.ToString();
+
+    }
+
 
 }

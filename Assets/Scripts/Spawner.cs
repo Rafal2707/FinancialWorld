@@ -18,7 +18,9 @@ public class Spawner : NetworkBehaviour
     [SerializeField] List<Transform> spawningLocationsList;
 
 
-    [SerializeField] List<ActivityScrollSO> allScrollsList;
+    [SerializeField] public List<ActivityScrollSO> allScrollsList;
+
+
     public List<ActivityScrollSO> spawnedScrollsList;
 
     float timeToSpawnMax = 10f;
@@ -83,53 +85,84 @@ public class Spawner : NetworkBehaviour
 
 
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     private void SpawnNewScrollServerRpc(int newActivityScrollSOIndex)
     {
 
         Transform randomLocationTransform = spawningLocationsList[0].transform;
-        ActivityScrollSO randomScript = GetActivityScrollSOFromIndex(newActivityScrollSOIndex);
-        spawnedScrollsList.Add(randomScript);
+        ActivityScrollSO randomActivityScrollSO = GetActivityScrollSOFromIndex(newActivityScrollSOIndex);
 
 
-        Transform spawnedScrollTransform = Instantiate(randomScript.prefab, RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
-
+        Transform spawnedScrollTransform = Instantiate(randomActivityScrollSO.prefab, RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
 
         NetworkObject spawnedNetworkScroll = spawnedScrollTransform.GetComponent<NetworkObject>();
 
         // Spawn is like instantiate for network, we need to do this first and after that we can assign parameters to it !
         spawnedNetworkScroll.Spawn(true);
 
-        switch (LanguageChoose.Instance.GetCurrentLanguage())
-        {
-            case LanguageChoose.Language.DK:
-                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionDK);
-                break;
-            case LanguageChoose.Language.PL:
-                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionPL);
-                break;
-            case LanguageChoose.Language.ENG:
-                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionENG);
-                break;
-            case LanguageChoose.Language.FIN:
-                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescriptionClientRpc(randomScript.descriptionFIN);
-                break;
-        }
-        spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomScript.isCentralBankActivity);
+        spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomActivityScrollSO.isCentralBankActivity);
+        spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignNumberClientRpc(randomActivityScrollSO.number);
+        AssignHostDescriptionLanguageClientRpc(newActivityScrollSOIndex, spawnedNetworkScroll);
+        
+        SpawnNewScrollClientRpc(newActivityScrollSOIndex);
+
+
+    }
+
+    [ClientRpc]
+    private void SpawnNewScrollClientRpc(int index)
+    {
+        spawnedScrollsList.Add(GetActivityScrollSOFromIndex(index));
+
         OnSpawnedScroll?.Invoke(this, EventArgs.Empty);
     }
 
 
 
+    [ClientRpc]
+    private void AssignHostDescriptionLanguageClientRpc(int newActivityScrollSOIndex, NetworkObjectReference spawnedNetworkScrollReference)
+    {
+        ActivityScrollSO randomActivityScrollSO = GetActivityScrollSOFromIndex(newActivityScrollSOIndex);
+
+        spawnedNetworkScrollReference.TryGet(out NetworkObject spawnedNetworkScroll);
+
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.DK:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescription(randomActivityScrollSO.descriptionDK);
+                break;
+            case LanguageChoose.Language.PL:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescription(randomActivityScrollSO.descriptionPL);
+                break;
+            case LanguageChoose.Language.ENG:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescription(randomActivityScrollSO.descriptionENG);
+                break;
+            case LanguageChoose.Language.FIN:
+                spawnedNetworkScroll.GetComponent<ActivityScroll>().SetDescription(randomActivityScrollSO.descriptionFIN);
+                break;
+        }
+    }
 
 
     private Vector3 RandomSpawnOffsetPosition(Transform planeTransform)
     {
+        Vector3 planePosition = transform.position;
+        Vector3 planeScale = transform.localScale;
+
+        // Calculate the left, right, top, and bottom edges
+        float leftEdge = -10f;
+        float rightEdge = 35f;
+        float topEdge = 2.5f;
+        float bottomEdge = -30f;
+
+
+        Vector3 tempPos = new Vector3(Random.Range(leftEdge, rightEdge), 0.5f, Random.Range(bottomEdge, topEdge));
+
+
         Vector3 randomPositionOnPlane = new Vector3(Random.Range(-planeTransform.localScale.x * (originalPlaneSize - offsetFromPlaneEdges) / 2, planeTransform.localScale.x * (originalPlaneSize - offsetFromPlaneEdges) / 2),
                                                     0.5f, Random.Range(-planeTransform.localScale.z * (originalPlaneSize - offsetFromPlaneEdges) / 2, planeTransform.localScale.z * (originalPlaneSize - offsetFromPlaneEdges) / 2));
-
-
-            return randomPositionOnPlane;
+            return tempPos;
     }
 
 
@@ -161,4 +194,5 @@ public class Spawner : NetworkBehaviour
     {
         return allScrollsList[index];
     }
+
 }

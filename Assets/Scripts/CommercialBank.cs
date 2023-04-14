@@ -7,7 +7,6 @@ using UnityEngine.VFX;
 
 public class CommercialBank : NetworkBehaviour
 {
-    [SerializeField] ScoreUI scoreUI;
     private ActivityScroll lastActivityScrollInside;
 
     public event EventHandler OnScrollCorrect;
@@ -24,74 +23,68 @@ public class CommercialBank : NetworkBehaviour
     {
         fireworksLeft.Stop();
         fireworksRight.Stop();
+
+        ActivityScroll.OnCommercialBankCorrectScroll += ActivityScroll_OnCorrectScroll;
+        ActivityScroll.OnCommercialBankWrongScroll += ActivityScroll_OnWrongScroll; 
     }
 
-
-    private void OnTriggerStay(Collider other)
+    private void ActivityScroll_OnWrongScroll(object sender, EventArgs e)
     {
-        if (other.TryGetComponent(out IScrollParent activityScrollParent))
+        ShowVisualWrongServerRpc();
+    }
+
+    private void ActivityScroll_OnCorrectScroll(object sender, EventArgs e)
+    {
+        ShowVisualCorrectServerRpc();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out Player player))
         {
-            activityScrollParent.SetIsInDroppingArea(true);
-            if (activityScrollParent.GetActivityScroll() != null)
-            {
-                lastActivityScrollInside = activityScrollParent.GetActivityScroll();
-            }
-
-            if(lastActivityScrollInside != null && lastActivityScrollInside.IsDropped())
-            {
-                if (!lastActivityScrollInside.IsCentralBankActivity())
-                {
-                    OnScrollCorrect?.Invoke(this, EventArgs.Empty);
-                    fireworksLeft.Play();
-                    fireworksRight.Play();
-                }
-                else if (lastActivityScrollInside.IsCentralBankActivity())
-                {
-                    OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
-
-                }
-                DestroyActivityScroll(lastActivityScrollInside);
-            }
+            player.SetIsInDroppingArea(true);
+            player.SetIsInCommercialBankDroppingArea(true);
+            player.isInCommercialBankDroppingArea = true;
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ShowVisualCorrectServerRpc()
+    {
+        ShowVisualCorrectClientRpc();
+    }
+
+    [ClientRpc]
+    public void ShowVisualCorrectClientRpc()
+    {
+        fireworksLeft.Play();
+        fireworksRight.Play();
+        OnScrollCorrect?.Invoke(this, EventArgs.Empty);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ShowVisualWrongServerRpc()
+    {
+        ShowVisualWrongClientRpc();
+    }
+
+    [ClientRpc]
+    public void ShowVisualWrongClientRpc()
+    {
+        OnScrollIncorrect?.Invoke(this, EventArgs.Empty);
+    }
+
+
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out Player player))
         {
+            lastActivityScrollInside = null;
             player.SetIsInDroppingArea(false);
+            player.SetIsInCommercialBankDroppingArea(false);
             fireworksLeft.Stop();
             fireworksRight.Stop();
         }
     }
 
-    public Vector3 GetDropAreaPosition()
-    {
-        return dropArea.position;
-    }
-
-
-
-
-    public void DestroyActivityScroll(ActivityScroll activityScroll)
-    {
-        DestroyActivityScrollServerRpc(activityScroll.NetworkObject);
-    }
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroyActivityScrollServerRpc(NetworkObjectReference activityScrollObjectReference)
-    {
-        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
-        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
-
-        ClearActivityScrollOnParentClientRpc(activityScrollObjectReference);
-        activityScroll.DestroySelf();
-    }
-
-    [ClientRpc]
-    public void ClearActivityScrollOnParentClientRpc(NetworkObjectReference activityScrollObjectReference)
-    {
-        activityScrollObjectReference.TryGet(out NetworkObject activityScrollNetworkObject);
-        ActivityScroll activityScroll = activityScrollNetworkObject.GetComponent<ActivityScroll>();
-
-        activityScroll.ClearActivityScrollOnParent();
-    }
 }
