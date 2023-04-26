@@ -61,11 +61,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 392
   spawnPositionList:
-  - {x: -2, y: 0, z: 0}
-  - {x: 2, y: 0, z: 0}
-  - {x: -2, y: 0, z: -2}
-  - {x: 2, y: 0, z: -2}
+  - {x: 4, y: 0, z: -25}
+  - {x: 4, y: 0, z: -20}
+  - {x: 10, y: 0, z: -20}
+  - {x: 10, y: 0, z: -25}
   currentActivityScroll: {fileID: 0}
+  scoreUI: {fileID: 0}
+  isInCentralBankDroppingArea: 0
+  isInCommercialBankDroppingArea: 0
   isInDroppingArea: 0
 --- !u!136 &3948565334994312681
 CapsuleCollider:

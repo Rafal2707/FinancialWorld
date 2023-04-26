@@ -138,12 +138,14 @@ public class ActivityScroll : NetworkBehaviour
             if (activityScrollParent.IsInCentralBankDroppingArea() && isCentralBankActivity)
             {
                 scoreUI.IncreaseServerRpc();
+                scoreUI.IncreaseTriesServerRpc();
                 DestroyActivityScroll(this);
                 OnCentralBankCorrectScroll?.Invoke(this, EventArgs.Empty);
             }
             else if (activityScrollParent.IsInCentralBankDroppingArea() && !isCentralBankActivity)
             {
-                scoreUI.DecreaseServerRpc();
+                //scoreUI.DecreaseServerRpc();
+                scoreUI.IncreaseTriesServerRpc();
                 DestroyActivityScroll(this);
                 OnCentralBankWrongScroll?.Invoke(this, EventArgs.Empty);
 
@@ -153,16 +155,17 @@ public class ActivityScroll : NetworkBehaviour
             else if (activityScrollParent.IsInCommercialBankDroppingArea() && !isCentralBankActivity)
             {
                 scoreUI.IncreaseServerRpc();
+                scoreUI.IncreaseTriesServerRpc();
                 DestroyActivityScroll(this);
                 OnCommercialBankCorrectScroll?.Invoke(this, EventArgs.Empty);
 
             }
             else if (activityScrollParent.IsInCommercialBankDroppingArea() && isCentralBankActivity)
             {
-                scoreUI.DecreaseServerRpc();
+                //scoreUI.DecreaseServerRpc();
+                scoreUI.IncreaseTriesServerRpc();
                 DestroyActivityScroll(this);
                 OnCommercialBankWrongScroll?.Invoke(this, EventArgs.Empty);
-
             }
         }
     }

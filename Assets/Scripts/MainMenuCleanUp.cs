@@ -27,9 +27,9 @@ public class MainMenuCleanUp : MonoBehaviour
             Destroy(LanguageChoose.Instance.gameObject);
         }
 
-        if(MenuMusicMenager.Instance != null)
+        if(MenuMusicManager.Instance != null)
         {
-            Destroy(MenuMusicMenager.Instance.gameObject);
+            Destroy(MenuMusicManager.Instance.gameObject);
         }
     }
 }

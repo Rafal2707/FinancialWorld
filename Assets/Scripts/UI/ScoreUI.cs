@@ -15,10 +15,17 @@ public class ScoreUI : NetworkBehaviour
 
 
     [SerializeField] public NetworkVariable<int> score = new NetworkVariable<int>(0);
+    [SerializeField] public NetworkVariable<int> tries = new NetworkVariable<int>(0);
 
     public int GetScore()
     {
         return score.Value;
+    }
+    
+
+    public int GetTries()
+    {
+        return tries.Value;
     }
 
  
@@ -30,23 +37,31 @@ public class ScoreUI : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        score.OnValueChanged -= OnStateChanged;
+        score.OnValueChanged -= OnStateChanged;        
     }
 
     public void OnStateChanged(int previous, int current)
     {
-        UpdateScoreTextClientRpc(current);        
+        UpdateScoreTextClientRpc(current);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void IncreaseServerRpc()
     {
-        // this will cause a replication over the network
-        // and ultimately invoke `OnValueChanged` on receivers
-
-        Debug.Log("Increased from server");
         score.Value++;
         scoreText.text = score.Value.ToString();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void IncreaseTriesServerRpc()
+    {
+        IncreaseTriesTextClientRpc();
+    }
+
+    [ClientRpc]
+    public void IncreaseTriesTextClientRpc()
+    {
+        tries.Value++;
     }
 
     [ClientRpc]

@@ -51,9 +51,9 @@ public class GameManager : NetworkBehaviour
         playerReadyDictionary = new Dictionary<ulong, bool>();
         playerPausedDictionary = new Dictionary<ulong, bool>();
 
-        if (MenuMusicMenager.Instance != null)
+        if (MenuMusicManager.Instance != null)
         {
-            Destroy(MenuMusicMenager.Instance.gameObject);
+            Destroy(MenuMusicManager.Instance.gameObject);
         }
     }
 

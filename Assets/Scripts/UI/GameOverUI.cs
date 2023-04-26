@@ -61,7 +61,7 @@ public class GameOverUI : MonoBehaviour
         if (GameManager.Instance.IsGameOver())
         {
             Show();
-            correctScrollsText.text = scoreUI.GetScore().ToString();
+            correctScrollsText.text = scoreUI.GetScore().ToString() + "/" + scoreUI.GetTries().ToString();
         }
         else Hide();
     }

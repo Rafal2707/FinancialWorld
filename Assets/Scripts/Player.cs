@@ -24,7 +24,6 @@ public class Player : NetworkBehaviour, IScrollParent
     private Vector3 lastInteractDir;
     [SerializeField] private Transform scrollHoldPoint;
     [SerializeField] private LayerMask scrollLayerMask;
-    //[SerializeField] private LayerMask scrollDropAreaMask;
     [SerializeField] private LayerMask collisionsLayerMask;
 
     [SerializeField] private List<Vector3> spawnPositionList;
@@ -202,16 +201,6 @@ public class Player : NetworkBehaviour, IScrollParent
         }
 
         HandleMovement();
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            scoreUI.IncreaseServerRpc();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Debug.Log("Decreasing");
-        }
     }
 
 

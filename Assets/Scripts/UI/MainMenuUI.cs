@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class MainMenuUI : MonoBehaviour
 {
     [SerializeField] private Button playMultiplayerButton;
+    [SerializeField] private Button optionsButton;
     [SerializeField] private Button playSingleplayerButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button languagePLButton;
@@ -19,18 +20,22 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playSingleplayerButtonText;
     [SerializeField] private TextMeshProUGUI playMultiplayerButtonText;
     [SerializeField] private TextMeshProUGUI quitButtonText;
-
+    [SerializeField] private TextMeshProUGUI optionsButtonText;
 
     private void Awake()
     {
-
+        optionsButton.onClick.AddListener(() =>
+        {
+            OptionsMainMenuUI.Instance.Show();
+            OptionsMainMenuUI.Instance.UpdateVisual();
+        });
 
         playMultiplayerButton.onClick.AddListener(() => {
             GameManagerMultiplayer.playMultiplayer = true;
             Loader.Load(Loader.Scene.LobbyScene);
         });
         playSingleplayerButton.onClick.AddListener(() => {
-            GameManagerMultiplayer  .playMultiplayer = false;
+            GameManagerMultiplayer.playMultiplayer = false;
             Loader.Load(Loader.Scene.LobbyScene);
         });
         quitButton.onClick.AddListener(() => {
@@ -40,22 +45,22 @@ public class MainMenuUI : MonoBehaviour
         languagePLButton.onClick.AddListener(() =>
         {
             LanguageChoose.Instance.ChangeLanguage(LanguageChoose.Language.PL);
-            ChangeMenuLanguageText("JEDEN GRACZ", "WIELU GRACZY", "WYJDZ");
+            ChangeMenuLanguageText("JEDEN GRACZ", "WIELU GRACZY", "WYJDZ", "OPCJE");
         });
         languageENGButton.onClick.AddListener(() =>
         {
             LanguageChoose.Instance.ChangeLanguage(LanguageChoose.Language.ENG);
-            ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "QUIT");
+            ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "QUIT", "OPTIONS");
         });
         languageDKButton.onClick.AddListener(() =>
         {
             LanguageChoose.Instance.ChangeLanguage(LanguageChoose.Language.DK);
-            ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "AFSLUT");
+            ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "AFSLUT", "MULIGHEDER");
         });
         languageFINButton.onClick.AddListener(() =>
         {
             LanguageChoose.Instance.ChangeLanguage(LanguageChoose.Language.FIN);
-            ChangeMenuLanguageText("YKSINPELI", "MONINPELI", "LOPETTAA");
+            ChangeMenuLanguageText("YKSINPELI", "MONINPELI", "LOPETTAA", "VAIHTOEHTOJA");
         });
 
         Time.timeScale = 1f;
@@ -66,24 +71,24 @@ public class MainMenuUI : MonoBehaviour
         switch (LanguageChoose.Instance.GetCurrentLanguage())
         {
             case LanguageChoose.Language.PL:
-                ChangeMenuLanguageText("JEDEN GRACZ", "WIELU GRACZY", "WYJDZ");
+                ChangeMenuLanguageText("JEDEN GRACZ", "WIELU GRACZY", "WYJDZ", "OPCJE");
                 break;
             case LanguageChoose.Language.ENG:
-                ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "QUIT");
+                ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "QUIT", "OPTIONS");
                 break;
             case LanguageChoose.Language.DK:
-                ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "AFSLUT");
+                ChangeMenuLanguageText("SINGLEPLAYER", "MULTIPLAYER", "AFSLUT", "MULIGHEDER");
                 break;
             case LanguageChoose.Language.FIN:
-                ChangeMenuLanguageText("YKSINPELI", "MONINPELI", "LOPETTAA");
+                ChangeMenuLanguageText("YKSINPELI", "MONINPELI", "LOPETTAA", "VAIHTOEHTOJA");
                 break;
         }
     }
-    private void ChangeMenuLanguageText(string singleplayerText, string multiplayerText,string quitText)
+    private void ChangeMenuLanguageText(string singleplayerText, string multiplayerText,string quitText, string optionsText)
     {
         playSingleplayerButtonText.text = singleplayerText;
         playMultiplayerButtonText.text = multiplayerText;
         quitButtonText.text = quitText;
+        optionsButtonText.text = optionsText;
     }
-
 }

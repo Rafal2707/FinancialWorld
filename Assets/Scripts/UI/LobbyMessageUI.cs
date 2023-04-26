@@ -12,6 +12,9 @@ public class LobbyMessageUI : MonoBehaviour
     [SerializeField] private Button closeButton;
 
 
+    //From lobbyUI
+    [SerializeField] private Button createLobbyButton;
+
     private void Awake()
     {
         closeButton.onClick.AddListener(() => { 
@@ -179,10 +182,12 @@ public class LobbyMessageUI : MonoBehaviour
     private void Show()
     {
         gameObject.SetActive(true);
+        closeButton.Select();
     }
 
     private void Hide()
     {
+        createLobbyButton.Select();
         gameObject.SetActive(false);
     }
 

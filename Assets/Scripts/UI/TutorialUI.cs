@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialUI : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class TutorialUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keyGamepadPauseText;
 
 
+    [SerializeField] private TextMeshProUGUI tutorialText;
+
+
+    
+
+
     private void Start()
     {
 
@@ -25,6 +32,23 @@ public class TutorialUI : MonoBehaviour
         GameManager.Instance.OnLocalPlayerReadyChanged += GameManager_OnLocalPlayerReadyChanged;
 
         UpdateVisual();
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.PL:
+                tutorialText.text = "SAMOUCZEK";
+                break;
+            case LanguageChoose.Language.ENG:
+                tutorialText.text = "TUTORIAL";
+                break;
+            case LanguageChoose.Language.DK:
+                tutorialText.text = "TUTORIAL";
+                break;
+            case LanguageChoose.Language.FIN:
+                tutorialText.text = "OPETUSOHJE";
+                break;
+        }
+
 
         Show();
     }

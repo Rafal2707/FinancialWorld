@@ -15,7 +15,11 @@ public class LobbyCreateUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI createPrivateButtonText;
     [SerializeField] private TextMeshProUGUI createLobbyText;
 
-
+    //From LobbyUI
+    [SerializeField] private Button createLobbyButton;
+    [SerializeField] private Button quickJoinButton;
+    [SerializeField] private Button joinByCodeButton;
+    
 
     private void Awake()
     {
@@ -61,13 +65,22 @@ public class LobbyCreateUI : MonoBehaviour
 
     private void Hide()
     {
+        
+
+        createLobbyButton.gameObject.SetActive(true);
+        quickJoinButton.gameObject.SetActive(true);
+        joinByCodeButton.gameObject.SetActive(true);
+
+        createLobbyButton.Select();
         gameObject.SetActive(false);
     }
 
     public void Show()
     {
         gameObject.SetActive(true);
-
+        createLobbyButton.gameObject.SetActive(false);
+        quickJoinButton.gameObject.SetActive(false);
+        joinByCodeButton.gameObject.SetActive(false);
         createPublicButton.Select();
     }
 }

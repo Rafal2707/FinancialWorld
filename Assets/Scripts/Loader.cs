@@ -36,4 +36,10 @@ public static class Loader
     {
         SceneManager.LoadScene(targetScene.ToString());
     }
+
+
+    public static string GetSceneName(Scene scene)
+    {
+        return scene.ToString();
+    }
 }

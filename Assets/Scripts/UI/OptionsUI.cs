@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OptionsUI : MonoBehaviour
@@ -23,6 +24,7 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button gamepadInteractButton;
     [SerializeField] private Button gamepadPauseButton;
+    [SerializeField] private Button muteAllButton;
 
 
 
@@ -52,6 +54,11 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private Transform pressToRebindKeyTransform;
 
 
+    [SerializeField] private TextMeshProUGUI leftStick1Text;
+    [SerializeField] private TextMeshProUGUI leftStick2Text;
+    [SerializeField] private TextMeshProUGUI leftStick3Text;
+    [SerializeField] private TextMeshProUGUI leftStick4Text;
+
     private Action onCloseButtonAction;
     private void Awake()
     {
@@ -59,6 +66,13 @@ public class OptionsUI : MonoBehaviour
         soundEffectsButton.onClick.AddListener(() =>
         {
             SoundManager.Instance.ChangeVolume();
+            UpdateVisual();
+        });
+
+        muteAllButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.Mute();
+            MusicManager.Instance.Mute();
             UpdateVisual();
         });
 
@@ -109,6 +123,7 @@ public class OptionsUI : MonoBehaviour
     }
     private void Start()
     {
+        
         GameManager.Instance.OnLocalGameUnpaused += GameManager_OnGameUnpaused;
 
         switch (LanguageChoose.Instance.GetCurrentLanguage())
@@ -124,6 +139,12 @@ public class OptionsUI : MonoBehaviour
                 InteractText.text = "INTERAKCJA";
                 pauseText.text = "PAUZA";
                 closeButtonText.text = "ZAMKNIJ";
+
+                leftStick1Text.text = "LEWY DRĄŻEK";
+                leftStick2Text.text = "LEWY DRĄŻEK";
+                leftStick3Text.text = "LEWY DRĄŻEK";
+                leftStick4Text.text = "LEWY DRĄŻEK";
+
                 break;
             case LanguageChoose.Language.ENG:
                 optionsText.text = "OPTIONS";
@@ -136,6 +157,11 @@ public class OptionsUI : MonoBehaviour
                 InteractText.text = "INTERACT";
                 pauseText.text = "PAUSE";
                 closeButtonText.text = "CLOSE";
+
+                leftStick1Text.text = "LEFT STICK";
+                leftStick2Text.text = "LEFT STICK";
+                leftStick3Text.text = "LEFT STICK";
+                leftStick4Text.text = "LEFT STICK";
                 break;
             case LanguageChoose.Language.DK:
                 optionsText.text = "MULIGHEDER";
@@ -148,6 +174,11 @@ public class OptionsUI : MonoBehaviour
                 InteractText.text = "INTERAKTERE";
                 pauseText.text = "PAUSE";
                 closeButtonText.text = "TÆT";
+
+                leftStick1Text.text = "VENSTRE PIND";
+                leftStick2Text.text = "VENSTRE PIND";
+                leftStick3Text.text = "VENSTRE PIND";
+                leftStick4Text.text = "VENSTRE PIND";
                 break;
             case LanguageChoose.Language.FIN:
                 optionsText.text = "VAIHTOEHDOT";
@@ -160,6 +191,11 @@ public class OptionsUI : MonoBehaviour
                 InteractText.text = "VUOROPUHELU";
                 pauseText.text = "TAUKO";
                 closeButtonText.text = "KIINNI";
+
+                leftStick1Text.text = "VASEN TIKKU";
+                leftStick2Text.text = "VASEN TIKKU";
+                leftStick3Text.text = "VASEN TIKKU";
+                leftStick4Text.text = "VASEN TIKKU";
                 break;
         }
         UpdateVisual();
@@ -208,7 +244,7 @@ public class OptionsUI : MonoBehaviour
         this.onCloseButtonAction = onCloseButtonAction;
         gameObject.SetActive(true);
 
-        soundEffectsButton.Select();
+        closeButton.Select();
     }
 
     public void Hide()

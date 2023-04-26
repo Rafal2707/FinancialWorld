@@ -16,14 +16,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private CentralBank centralBank;
     [SerializeField] private CommercialBank commercialBank;
 
-    private float volume = 1f;
+    private float volume = .1f;
 
 
     private void Awake()
     {
         Instance = this;
 
-        PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, 1f);
+        volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, .1f);
+
     }
     private void Start()
     {
@@ -85,7 +86,7 @@ public class SoundManager : MonoBehaviour
     private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 0.5f)
     {
         PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], position, volume);
-        
+
     }
     private void PlaySound(AudioClip audioClip, Vector3 position, float volumeMultiplier = 1f)
     {
@@ -106,7 +107,7 @@ public class SoundManager : MonoBehaviour
     public void ChangeVolume()
     {
         volume += .1f;
-        if(volume > 1f)
+        if (volume > 1f)
         {
             volume = 0f;
         }
@@ -114,6 +115,15 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.SetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, volume);
         PlayerPrefs.Save();
     }
+
+
+    public void Mute()
+    {
+        volume = 0f;
+        PlayerPrefs.SetFloat(PLAYER_PREFS_SOUND_EFFECTS_VOLUME, volume);
+        PlayerPrefs.Save();
+    }
+
 
     public float GetVolume()
     {
