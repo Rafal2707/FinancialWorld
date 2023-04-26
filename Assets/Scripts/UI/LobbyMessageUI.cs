@@ -97,7 +97,7 @@ public class LobbyMessageUI : MonoBehaviour
                 ShowMessage("DOŁĄCZANIE DO LOBBY...");
                 break;
             case LanguageChoose.Language.ENG:
-                ShowMessage("Joining Lobby...");
+                ShowMessage("JOINING LOBBY...");
                 break;
             case LanguageChoose.Language.DK:
                 ShowMessage("TILSLUTTER LOBBEN...");

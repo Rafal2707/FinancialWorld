@@ -136,20 +136,28 @@ public class GameInput : MonoBehaviour
                 break;
             case Binding.Pause:
                 inputAction = playerInputActions.Player.Pause;
-                bindingIndex = 1;
+                bindingIndex = 0;
                 break;
             case Binding.Gamepad_Interact:
                 inputAction = playerInputActions.Player.Interact;
-                bindingIndex = 1;
+                bindingIndex = 0;
                 break;
             case Binding.Gamepad_Pause:
                 inputAction = playerInputActions.Player.Pause;
-                bindingIndex = 1;
+                bindingIndex = 0;
                 break;
         }
 
         inputAction.PerformInteractiveRebinding(bindingIndex)
-            .OnComplete(callback => {
+
+            .OnCancel(context =>
+            {
+                context.Dispose();
+                playerInputActions.Player.Enable();
+                onActionRebound();
+            })
+            .OnComplete(callback =>
+            {
                 callback.Dispose();
                 playerInputActions.Player.Enable();
                 onActionRebound();
