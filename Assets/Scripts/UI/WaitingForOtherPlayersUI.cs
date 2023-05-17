@@ -22,10 +22,10 @@ public class WaitingForOtherPlayersUI : MonoBehaviour
                 waitingForOtherPlayersText.text = "WAITING FOR PLAYERS...";
                 break;
             case LanguageChoose.Language.DK:
-                waitingForOtherPlayersText.text = "VENTER PÅ SPILLERE...";
+                waitingForOtherPlayersText.text = "VENTER PÅ ANDRE SPILLERE...";
                 break;
             case LanguageChoose.Language.FIN:
-                waitingForOtherPlayersText.text = "ODOTAAN PELAAJIA...";
+                waitingForOtherPlayersText.text = "ODOTTAA PELAAJIA...";
                 break;
         }
         Hide();

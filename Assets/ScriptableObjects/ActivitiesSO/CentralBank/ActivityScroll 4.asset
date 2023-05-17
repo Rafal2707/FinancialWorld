@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 4
-  descriptionPL: Prowadzi rachunki instytucji panstwowych
-  descriptionENG: Maintains accounts of government's institutions
-  descriptionDK: Vedligeholder regnskaber for statslige institutioner
-  descriptionFIN: "Yll\xE4pit\xE4\xE4 valtion laitosten tilej\xE4"
+  descriptionPL: "Prowadzi rachunki nale\u017C\u0105ce do instytucji pa\u0144stwowych"
+  descriptionENG: It maintains bank accounts which belong to state institutions
+  descriptionDK: "Den bestyrer konti der tilh\xF8rer statslige institutioner"
+  descriptionFIN: "Se pit\xE4\xE4 huolta valtion laitoksille kuuluvista pankkitileist\xE4"
   isCentralBankActivity: 1

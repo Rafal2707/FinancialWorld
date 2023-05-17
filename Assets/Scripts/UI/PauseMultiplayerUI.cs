@@ -19,13 +19,13 @@ public class PauseMultiplayerUI : MonoBehaviour
                 pauseText.text = "OCZEKAWIANIE NA WZNOWIENIE GRY PRZEZ INNYCH GRACZY";
                 break;
             case LanguageChoose.Language.ENG:
-                pauseText.text = "WAITING FOR OTHER PLAYERS TO RESUME";
+                pauseText.text = "WAITING FOR ALL PLAYERS TO UNPAUSE";
                 break;
             case LanguageChoose.Language.DK:
-                pauseText.text = "VENTER PÅ, AT ANDRE SPILLERE GENOPTAGES";
+                pauseText.text = "VENTER PÅ, AT ALLE SPILLERNE AFBRYDER DERES PAUSE";
                 break;
             case LanguageChoose.Language.FIN:
-                pauseText.text = "ODOTTAAN MUIDEN PELAAJIEN JATKAMISTA";
+                pauseText.text = "ODOTTAA ETTÄ MUUT PELAAJAT OVAT VALMIITA";
                 break;
         }
 

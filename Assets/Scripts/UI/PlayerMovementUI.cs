@@ -40,8 +40,8 @@ public class PlayerMovementUI : MonoBehaviour
                 nextSlideButtonText.text = "NEXT";
                 break;
             case LanguageChoose.Language.DK:
-                playerMovementText.text = "SPILLERS BEVÆGELSE";
-                leftStickText.text = "VENSTRE STIK";
+                playerMovementText.text = "SPILLERBEVÆGELSE";
+                leftStickText.text = "VENSTRE PIND";
                 nextSlideButtonText.text = "NÆSTE";
                 break;
             case LanguageChoose.Language.FIN:

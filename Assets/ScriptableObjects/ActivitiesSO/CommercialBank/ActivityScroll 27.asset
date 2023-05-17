@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 27
-  descriptionPL: Swiadczy uslugi klientowi masowemu
-  descriptionENG: Provides services to mass customers
-  descriptionDK: 'Leverer tjenester til massekunder '
-  descriptionFIN: 'Tarjoaa palveluja massa-asiakkaille '
+  descriptionPL: "Udziela kredyt\xF3w na mieszkanie osobom prywatnym"
+  descriptionENG: It may grant a loan for an apartment to private individuals
+  descriptionDK: "Den kan give et l\xE5n til en privatperson til et boligk\xF8b"
+  descriptionFIN: "Se voi my\xF6nt\xE4\xE4 asuntolainaa yksityishenkil\xF6ille"
   isCentralBankActivity: 0

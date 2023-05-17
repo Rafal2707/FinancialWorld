@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 0
-  descriptionPL: Emituje pieniadz gotowkowy
-  descriptionENG: It is responsible for emission of banknotes
-  descriptionDK: Udsteder kontante penge
-  descriptionFIN: "Antaa k\xE4teist\xE4 rahaa"
+  descriptionPL: "Ma prawo do wprowadzania pieni\u0119dzy do gospodarki"
+  descriptionENG: It has a right to insert money into state's economy
+  descriptionDK: "Den har tilladelse til at inds\xE6tte penge i statens \xF8konomi"
+  descriptionFIN: "Sill\xE4 on oikeus laskea liikkeelle rahaa"
   isCentralBankActivity: 1

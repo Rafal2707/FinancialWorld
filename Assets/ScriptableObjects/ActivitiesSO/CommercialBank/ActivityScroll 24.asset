@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 24
-  descriptionPL: Przyjmuje depozyty
-  descriptionENG: Accepts deposits
-  descriptionDK: Accepterer indskud
-  descriptionFIN: "Hyv\xE4ksyy talletukset"
+  descriptionPL: "\u015Awiadczy us\u0142ugi p\u0142atnicze"
+  descriptionENG: It provides payment services
+  descriptionDK: Den leverer betalingsservicer
+  descriptionFIN: Se tarjoaa maksupalveluita
   isCentralBankActivity: 0

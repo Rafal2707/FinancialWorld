@@ -50,13 +50,13 @@ public class LobbyCreateUI : MonoBehaviour
                 createLobbyText.text = "CREATE LOBBY";
                 break;
             case LanguageChoose.Language.DK:
-                createPublicButtonText.text = "OFFENTLIG";
-                createPrivateButtonText.text = "PRIVAT";
-                createLobbyText.text = "OPRET LOBBY";
+                createPublicButtonText.text = "PUBLIC";
+                createPrivateButtonText.text = "PRIVATE";
+                createLobbyText.text = "OPRETTE LOBBY";
                 break;
             case LanguageChoose.Language.FIN:
                 createPublicButtonText.text = "JULKINEN";
-                createPrivateButtonText.text = "PRIVATE";
+                createPrivateButtonText.text = "YKSITYINEN";
                 createLobbyText.text = "LUO AULA";
                 break;
         }

@@ -45,7 +45,7 @@ public class TutorialUI : MonoBehaviour
                 tutorialText.text = "TUTORIAL";
                 break;
             case LanguageChoose.Language.FIN:
-                tutorialText.text = "OPETUSOHJE";
+                tutorialText.text = "OHJEET";
                 break;
         }
 

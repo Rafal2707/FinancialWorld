@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 22
-  descriptionPL: Swiadczy uslugi platnicze
-  descriptionENG: Provides payment services
-  descriptionDK: Tilbyder betalingstjenester
-  descriptionFIN: Tarjoaa maksupalveluja
+  descriptionPL: "Pracownicy banku mog\u0105 doradza\u0107 osobom fizycznym w sprawach
+    finansowych"
+  descriptionENG: Bank employees can advise private individuals on financial matters
+  descriptionDK: "Bankansatte kan r\xE5dgive privatpersoner og firmaer om financielle
+    emner"
+  descriptionFIN: "Pankin ty\xF6ntekij\xE4t voivat neuvoa yksityishenkil\xF6it\xE4
+    talousasioissa"
   isCentralBankActivity: 0

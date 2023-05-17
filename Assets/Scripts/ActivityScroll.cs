@@ -44,6 +44,10 @@ public class ActivityScroll : NetworkBehaviour
     {
         OnAnyDropScroll = null;
         OnAnyPickUpScroll = null;
+        OnCentralBankCorrectScroll = null;
+        OnCentralBankWrongScroll = null;
+        OnCommercialBankCorrectScroll = null;
+        OnCommercialBankWrongScroll = null;
     }
 
 
@@ -273,50 +277,6 @@ public class ActivityScroll : NetworkBehaviour
 
         activityScroll.ClearActivityScrollOnParent();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public bool IsDropped()
     {

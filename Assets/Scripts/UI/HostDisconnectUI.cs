@@ -34,11 +34,11 @@ public class HostDisconnectUI : MonoBehaviour
                 playAgainButtonText.text = "PLAY AGAIN";
                 break;
             case LanguageChoose.Language.DK:
-                hostDisconnectedText.text = "VÆRTEN HAR AFBRYDET";
+                hostDisconnectedText.text = "VÆRTEN HAR AFBRUDT FORBINDELSEN";
                 playAgainButtonText.text = "SPIL IGEN";
                 break;
             case LanguageChoose.Language.FIN:
-                hostDisconnectedText.text = "ISÄNTÄ ON YHTEYS KATKUNUT";
+                hostDisconnectedText.text = "YHTEYS ISÄNTÄÄN ON KATKENNUT";
                 playAgainButtonText.text = "PELAA UUDESTAAN";
                 break;
         }

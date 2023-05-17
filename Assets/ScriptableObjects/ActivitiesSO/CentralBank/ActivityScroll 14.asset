@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 14
-  descriptionPL: Przechowuje rezerwy obowiazkowe
-  descriptionENG: Holds mandatory reserves
-  descriptionDK: Har obligatoriske reserver
-  descriptionFIN: "Pit\xE4\xE4 hallussaan pakollisia varantoja"
+  descriptionPL: "Mo\u017Ce przechowywa\u0107 rezerwy obowi\u0105zkowe innych bank\xF3w"
+  descriptionENG: It may hold cash reserves of other banks
+  descriptionDK: Den kan holde bankreserver for andre banker
+  descriptionFIN: "Se voi pit\xE4\xE4 huolen muiden pankkien k\xE4teisvaroista"
   isCentralBankActivity: 1

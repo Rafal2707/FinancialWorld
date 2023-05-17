@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 5
-  descriptionPL: 'Obsluguje budzet panstwa '
-  descriptionENG: Holds the government budget
-  descriptionDK: Holder statsbudgettet
-  descriptionFIN: "Pit\xE4\xE4 hallussaan valtion budjettia"
+  descriptionPL: "Rozlicza dochody i wydatki Pa\u0144stwa"
+  descriptionENG: It conducts settlements of state revenues and expenditures
+  descriptionDK: Den afregner statslige indkomster og udgifter
+  descriptionFIN: Se suorittaa valtion tulojen ja menojen selvitykset
   isCentralBankActivity: 1

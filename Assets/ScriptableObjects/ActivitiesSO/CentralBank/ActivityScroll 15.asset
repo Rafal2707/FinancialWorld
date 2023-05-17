@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 15
-  descriptionPL: Prowadzi rachunki instytucji panstwowych
-  descriptionENG: Is a lender of last resort
-  descriptionDK: "Der er en l\xE5ngiver i sidste instans"
-  descriptionFIN: Jest kredytodawca ostatniej instancji
+  descriptionPL: "Jest instytucj\u0105 publiczn\u0105"
+  descriptionENG: It is a public institution
+  descriptionDK: Det er en offentlig institution
+  descriptionFIN: Se on julkinen instituutio
   isCentralBankActivity: 1

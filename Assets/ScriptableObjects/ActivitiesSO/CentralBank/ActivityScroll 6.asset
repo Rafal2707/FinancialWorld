@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 6
-  descriptionPL: Obsluguje dlug publiczny
-  descriptionENG: Supports public debt
-  descriptionDK: "Underst\xF8tter offentlig g\xE6ld"
-  descriptionFIN: Tukee julkista velkaa
+  descriptionPL: "Rozlicza i wyp\u0142aca odsetki instytucjom, kt\xF3re po\u017Cyczy\u0142y
+    pieni\u0105dze pa\u0144stwu"
+  descriptionENG: It pays interest to institutions that have lent money to the state
+  descriptionDK: "Den udbetaler renter til institutioner der har l\xE5nt penge til
+    staten"
+  descriptionFIN: Se laskee ja maksaa korkoa valtiolle rahaa lainaneille laitoksille
   isCentralBankActivity: 1

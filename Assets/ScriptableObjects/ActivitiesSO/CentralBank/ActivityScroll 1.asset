@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 1
-  descriptionPL: Jest bankiem wszystkich bankow
-  descriptionENG: It is often called the "bank of banks"
-  descriptionDK: Det er banken for alle banker
-  descriptionFIN: Se on kaikkien pankkien pankki
+  descriptionPL: "Zaopatruje banki komercyjne w pieni\u0105dz"
+  descriptionENG: It supplies commercial banks with money
+  descriptionDK: Den leverer penge til kommercielle banker
+  descriptionFIN: Se toimittaa rahaa liikepankeille
   isCentralBankActivity: 1

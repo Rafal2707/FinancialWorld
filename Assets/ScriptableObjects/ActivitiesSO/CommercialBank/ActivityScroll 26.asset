@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 26
-  descriptionPL: Prowadzi rachunki w obcych walutach
-  descriptionENG: Maintains individual accounts in foreign currencies
-  descriptionDK: 'Vedligeholder konti i fremmed valuta '
-  descriptionFIN: "Yll\xE4pit\xE4\xE4 tilej\xE4 ulkomaanvaluutoissa "
+  descriptionPL: "Przyjmuje oszcz\u0119dno\u015Bci os\xF3b prywatnych"
+  descriptionENG: Accepts the savings of private persons
+  descriptionDK: Accepterer privatpersoners opsparinger
+  descriptionFIN: "Se hyv\xE4ksyy yksityishenkil\xF6iden s\xE4\xE4st\xF6j\xE4"
   isCentralBankActivity: 0

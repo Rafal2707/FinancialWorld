@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 19
-  descriptionPL: 'Wydaje pieniadz elektroniczny '
-  descriptionENG: Emits electronic money
-  descriptionDK: 'Brug af elektroniske penge '
-  descriptionFIN: "S\xE4hk\xF6isen rahan k\xE4ytt\xF6 "
+  descriptionPL: "Udziela po\u017Cyczek osobom prywatnym"
+  descriptionENG: It grants loans to private persons
+  descriptionDK: "Den kan give l\xE5n til privatpersoner"
+  descriptionFIN: "Se my\xF6nt\xE4\xE4 lainoja yksityishenkil\xF6ille"
   isCentralBankActivity: 0

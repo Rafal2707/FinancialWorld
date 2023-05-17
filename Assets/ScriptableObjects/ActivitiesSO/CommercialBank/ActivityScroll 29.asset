@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 29
-  descriptionPL: Ustala wielkosc odsetek od kredytu
-  descriptionENG: Determines the amount of interest on the loan
-  descriptionDK: "Bestemmer rentebel\xF8bet p\xE5 l\xE5net"
-  descriptionFIN: "M\xE4\xE4ritt\xE4\xE4 lainan koron m\xE4\xE4r\xE4n"
+  descriptionPL: "Udost\u0119pnia skrytki sejfowe prywatnym osobom"
+  descriptionENG: It offers safe deposit boxes to private persons
+  descriptionDK: Den leverer sikre opbevarings rum til privatpersoner
+  descriptionFIN: "Se tarjoaa tallelokeroita yksityishenkil\xF6ille"
   isCentralBankActivity: 0

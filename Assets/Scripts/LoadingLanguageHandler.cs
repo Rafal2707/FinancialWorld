@@ -19,7 +19,7 @@ public class LoadingLanguageHandler : MonoBehaviour
                 loadingText.text = "LOADING...";
                 break;
             case LanguageChoose.Language.DK:
-                loadingText.text = "INDLÆSER...";
+                loadingText.text = "LÆSNING...";
                 break;
             case LanguageChoose.Language.FIN:
                 loadingText.text = "LADATAAN...";

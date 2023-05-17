@@ -150,8 +150,8 @@ public class OptionsUI : MonoBehaviour
                 optionsText.text = "OPTIONS";
                 soundEffectsText.text = "SOUND EFFECTS: 5";
                 musicText.text = "MUSIC: 5";
-                moveUpText.text = "MOVE UP";
-                moveDownText.text = "MOVE DOWN";
+                moveUpText.text = "MOVE FORWARD";
+                moveDownText.text = "MOVE BACKWARDS";
                 moveLeftText.text = "MOVE LEFT";
                 moveRightText.text = "MOVE RIGHT";
                 InteractText.text = "INTERACT";
@@ -164,16 +164,16 @@ public class OptionsUI : MonoBehaviour
                 leftStick4Text.text = "LEFT STICK";
                 break;
             case LanguageChoose.Language.DK:
-                optionsText.text = "MULIGHEDER";
-                soundEffectsText.text = "LYDVIRKNINGER: 5";
+                optionsText.text = "OPTIONER";
+                soundEffectsText.text = "LYDEFFEKTER: 5";
                 musicText.text = "MUSIK: 5";
-                moveUpText.text = "FLYT OP";
-                moveDownText.text = "FLYT NED";
-                moveLeftText.text = "BEVÆG DIG TIL VENSTRE";
+                moveUpText.text = "FLYT FREMAD";
+                moveDownText.text = "FLYT BAGLÆNS";
+                moveLeftText.text = "FLYT TIL VENSTRE";
                 moveRightText.text = "FLYT TIL HØJRE";
-                InteractText.text = "INTERAKTERE";
+                InteractText.text = "INTERAGERE";
                 pauseText.text = "PAUSE";
-                closeButtonText.text = "TÆT";
+                closeButtonText.text = "LUK";
 
                 leftStick1Text.text = "VENSTRE PIND";
                 leftStick2Text.text = "VENSTRE PIND";
@@ -181,16 +181,16 @@ public class OptionsUI : MonoBehaviour
                 leftStick4Text.text = "VENSTRE PIND";
                 break;
             case LanguageChoose.Language.FIN:
-                optionsText.text = "VAIHTOEHDOT";
-                soundEffectsText.text = "ÄÄNIEFEKTIOT: 5";
+                optionsText.text = "ASETUKSET";
+                soundEffectsText.text = "ÄÄNIEFEKTIT: 5";
                 musicText.text = "MUSIIKKI: 5";
-                moveUpText.text = "LIIKU YLÖS";
-                moveDownText.text = "SIIRRÄ ALAS";
-                moveLeftText.text = "SIIRRY VASEMMALLE";
+                moveUpText.text = "LIIKU ETEENPÄIN";
+                moveDownText.text = "LIIKU TAAKSEPÄIN";
+                moveLeftText.text = "LIIKU VASEMMALLE";
                 moveRightText.text = "LIIKU OIKEALLE";
-                InteractText.text = "VUOROPUHELU";
-                pauseText.text = "TAUKO";
-                closeButtonText.text = "KIINNI";
+                InteractText.text = "POIMI/PUDOTA";
+                pauseText.text = "PYSÄYTÄ";
+                closeButtonText.text = "SULJE";
 
                 leftStick1Text.text = "VASEN TIKKU";
                 leftStick2Text.text = "VASEN TIKKU";

@@ -46,8 +46,8 @@ public class GameOverUI : MonoBehaviour
                 PlayAgainButtonText.text = "SPIL IGEN";
                 break;
             case LanguageChoose.Language.FIN:
-                gameOverText.text = "AIKA ON LOPUSSA!";
-                LabelCorrectScrollsText.text = "OIKEIN MÄÄRITETYT TOIMINNOT";
+                gameOverText.text = "AIKA ON LOPPU!";
+                LabelCorrectScrollsText.text = "OIKEAT VALINNAT";
                 PlayAgainButtonText.text = "PELAA UUDESTAAN";
                 break;
         }
@@ -74,5 +74,6 @@ public class GameOverUI : MonoBehaviour
     private void Show()
     {
         gameObject.SetActive(true);
+        playAgainButton.Select();
     }
 }

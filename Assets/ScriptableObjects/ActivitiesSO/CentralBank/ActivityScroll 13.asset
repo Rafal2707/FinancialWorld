@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 13
-  descriptionPL: Ustala poziom rezerw obowiazkowych
-  descriptionENG: Sets the level of mandatory reserves
-  descriptionDK: Angiver niveauet for mindstereserver
-  descriptionFIN: "Asettaa v\xE4himm\xE4isvarantojen tason"
+  descriptionPL: "Ustala ile got\xF3wki banki musz\u0105 obowi\u0105zkowo przechowywa\u0107
+    jako rezerwa"
+  descriptionENG: It determines how much cash banks must hold as reserves
+  descriptionDK: Den bestemmer hvor mange penge en bank skal holde i reserve
+  descriptionFIN: "Se m\xE4\xE4ritt\xE4\xE4, kuinka paljon k\xE4teisvarantoja pankeilla
+    on oltava "
   isCentralBankActivity: 1

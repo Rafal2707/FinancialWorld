@@ -48,18 +48,17 @@ public class GameLoopUI : MonoBehaviour
 
                 break;
             case LanguageChoose.Language.DK:
-                pickUpText.text = "DANISH TRANSLATION";
-                bringBackText.text = "DANISH TRANSLATION";
-                dropText.text = "DANISH TRANSLATION";
+                pickUpText.text = "SAMLE AKTIVITETSRULLEN OP OG LÆSE BESKRIVELSEN";
+                bringBackText.text = "BRINGE AKTIVITETSRULLEN TILBAGE TIL DEN KORREKTE BANK";
+                dropText.text = "DROP AKTIVITETSRULLE I BANKZONEN";
                 nextSlideButtonText.text = "NÆSTE";
 
                 break;
             case LanguageChoose.Language.FIN:
-                pickUpText.text = "fINNISH TRANSLATION";
-                bringBackText.text = "fINNISH TRANSLATION";
-                dropText.text = "fINNISH TRANSLATION";
+                pickUpText.text = "POIMI KÄÄRÖ JA LUE SEN SISÄLTÖ";
+                bringBackText.text = "VIE KÄÄRÖ SEN PANKIN LUO, JOTA TOIMINTO KUVAA";
+                dropText.text = "PUDOTA KÄÄRÖ VALITSEMASI PANKIN EDUSTALLE";
                 nextSlideButtonText.text = "SEURAAVA";
-
                 break;
         }
 

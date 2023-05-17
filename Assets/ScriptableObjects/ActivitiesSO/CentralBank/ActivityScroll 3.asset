@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 3
-  descriptionPL: Realizuje transakcje z instytucjami miedzynarodowymi
-  descriptionENG: Executes transactions with international institutions
-  descriptionDK: "Udf\xF8rer transaktioner med internationale institutioner"
-  descriptionFIN: "Suorittaa liiketoimia kansainv\xE4listen instituutioiden kanssa"
+  descriptionPL: Wykonuje transakcje z zagranicznymi bankami centralnymi
+  descriptionENG: It executes transactions with foreign central banks
+  descriptionDK: "Den udf\xF8rer transaktioner med fremmede centralbanke"
+  descriptionFIN: "Sill\xE4 on liiketoimia muiden maiden keskuspankkien kanssa"
   isCentralBankActivity: 1

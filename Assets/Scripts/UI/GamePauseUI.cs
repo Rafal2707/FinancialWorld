@@ -57,14 +57,14 @@ public class GamePauseUI : MonoBehaviour
                 break;
             case LanguageChoose.Language.DK:
                 pauseText.text = "PAUSE";
-                resumeButtonText.text = "GENOPTAG";
-                optionsButtonText.text = "MULIGHEDER";
+                resumeButtonText.text = "RESUME";
+                optionsButtonText.text = "OPTIONER";
                 mainMenuButtonText.text = "HOVEDMENU";
                 break;
             case LanguageChoose.Language.FIN:
                 pauseText.text = "TAUKO";
-                resumeButtonText.text = "JATKAA";
-                optionsButtonText.text = "VAIHTOEHDOT";
+                resumeButtonText.text = "JATKA";
+                optionsButtonText.text = "ASETUKSET";
                 mainMenuButtonText.text = "PÄÄVALIKKO";
                 break;
         }

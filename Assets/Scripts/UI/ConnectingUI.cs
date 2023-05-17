@@ -23,7 +23,7 @@ public class ConnectingUI : MonoBehaviour
                 connectingText.text = "TILSLUTNING...";
                 break;
             case LanguageChoose.Language.FIN:
-                connectingText.text = "YHTEYTTÄ...";
+                connectingText.text = "YHDISTÄÄ...";
                 break;
         }
 

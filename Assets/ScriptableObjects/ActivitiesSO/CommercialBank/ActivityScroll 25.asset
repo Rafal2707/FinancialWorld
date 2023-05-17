@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 25
-  descriptionPL: 'Udziela kredytow w rachunku bankowym '
-  descriptionENG: Grants loans in a bank account
-  descriptionDK: "Yder l\xE5n p\xE5 en bankkonto "
-  descriptionFIN: "My\xF6nt\xE4\xE4 lainoja pankkitilille "
+  descriptionPL: "Celem banku jest osi\u0105gni\u0119cie zysku"
+  descriptionENG: It's goal is to make a profit
+  descriptionDK: "Dens m\xE5l er at generere profit"
+  descriptionFIN: Sen tavoitteena on tuottaa voittoa
   isCentralBankActivity: 0

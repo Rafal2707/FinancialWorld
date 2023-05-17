@@ -61,7 +61,10 @@ public class ScoreUI : NetworkBehaviour
     [ClientRpc]
     public void IncreaseTriesTextClientRpc()
     {
-        tries.Value++;
+        if (IsServer)
+        {
+            tries.Value++;
+        }
     }
 
     [ClientRpc]

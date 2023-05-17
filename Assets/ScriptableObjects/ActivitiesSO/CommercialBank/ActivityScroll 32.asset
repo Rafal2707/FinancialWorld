@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 978c27835036aca4b9ebe934e3db8a82, type: 3}
+  m_Name: ActivityScroll 32
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
+  number: 32
+  descriptionPL: "Jest instytucj\u0105 prywatn\u0105"
+  descriptionENG: It is a private institution
+  descriptionDK: Det er en privat institution
+  descriptionFIN: Se on yksityinen laitos
+  isCentralBankActivity: 0

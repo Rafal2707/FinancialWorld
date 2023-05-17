@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 21
-  descriptionPL: Prowadzi rachunki oszczednosciowe
-  descriptionENG: Keeps savings accounts
-  descriptionDK: Holder opsparingskonti
-  descriptionFIN: "Pit\xE4\xE4 s\xE4\xE4st\xF6tilej\xE4"
+  descriptionPL: "Jest wiele takich bank\xF3w w ka\u017Cdym pa\u0144stwie"
+  descriptionENG: There are many such banks in every country
+  descriptionDK: "Der findes mange s\xE5danne banker i hvert land"
+  descriptionFIN: "T\xE4llaisia pankkeja on monia joka maassa"
   isCentralBankActivity: 0

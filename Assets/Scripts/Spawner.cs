@@ -23,7 +23,7 @@ public class Spawner : NetworkBehaviour
 
     public List<ActivityScrollSO> spawnedScrollsList;
 
-    float timeToSpawnMax = 10f;
+    float timeToSpawnMax = 4f;
     float timeToSpawn = 4f;
 
     float originalPlaneSize = 10f;
@@ -41,7 +41,7 @@ public class Spawner : NetworkBehaviour
         spawnedScrollsList = new List<ActivityScrollSO>();
 
 
-        timeToSpawn = 3f;
+        timeToSpawn = 2.5f;
     }
 
 
@@ -165,6 +165,13 @@ public class Spawner : NetworkBehaviour
             return tempPos;
     }
 
+
+
+    private ActivityScrollSO PickRandomScroll2()
+    {
+        ActivityScrollSO randomActivityScroll = allScrollsList[Random.Range(0, allScrollsList.Count)];
+        return randomActivityScroll;
+    }
 
     private ActivityScrollSO PickRandomScroll()
     {

@@ -73,15 +73,15 @@ public class LobbyUI : MonoBehaviour
                 break;
             case LanguageChoose.Language.DK:
                 mainMenuButtonText.text = "HOVEDMENU";
-                createLobbyButtonText.text = "OPRET LOBBY";
-                quickJoinButtonText.text = "HURTIG JOIN";
-                joinCodeButtonText.text = "DELTAG MED KODE";
+                createLobbyButtonText.text = "OPRETTE LOBBY";
+                quickJoinButtonText.text = "HURTIG TILMELDING";
+                joinCodeButtonText.text = "TILMELDING VED CODE";
                 break;
             case LanguageChoose.Language.FIN:
                 mainMenuButtonText.text = "PÄÄVALIKKO";
                 createLobbyButtonText.text = "LUO AULA";
-                quickJoinButtonText.text = "PIKALIITTY";
-                joinCodeButtonText.text = "LIITY KOODIN MUKAAN";
+                quickJoinButtonText.text = "PIKALIITY";
+                joinCodeButtonText.text = "LIITY KOODIN AVULLA";
                 break;
         }
     }

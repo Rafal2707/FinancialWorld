@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 8
-  descriptionPL: 'Udziela pozyczek innym bankom '
-  descriptionENG: Is a lender to other banks
-  descriptionDK: "Tilbyder l\xE5n til andre banker "
-  descriptionFIN: 'Tarjoaa lainoja muille pankeille '
+  descriptionPL: "Mo\u017Ce udzieli\u0107 po\u017Cyczek innym bankom w sytuacji kryzysowej"
+  descriptionENG: 'It may grant loans to other banks in crisis situation '
+  descriptionDK: "Den kan give l\xE5n til andre banker i krisesituationer"
+  descriptionFIN: "Se voi poikkeustilanteessa my\xF6nt\xE4\xE4 lainoja muille pankeille"
   isCentralBankActivity: 1

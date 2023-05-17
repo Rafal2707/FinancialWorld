@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 28
-  descriptionPL: Udostepnia skrytki sejfowe
-  descriptionENG: Provides safe deposit boxes
-  descriptionDK: 'Tilbyder pengeskabe '
-  descriptionFIN: 'Tarjoaa tallelokeroita '
+  descriptionPL: "\u015Awiadczy us\u0142ugi finansowe osobom fizycznym i firmom"
+  descriptionENG: It provides financial services to individuals and bussinesses
+  descriptionDK: Den leverer financielle tjenester til privatpersoner og firmaer
+  descriptionFIN: "Se tarjoaa rahoituspalveluita yksityishenkil\xF6ille ja yrityksille"
   isCentralBankActivity: 0

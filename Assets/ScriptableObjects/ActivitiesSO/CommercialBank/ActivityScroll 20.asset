@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 20
-  descriptionPL: 'Konsultuje I doradza w kwestiach finansowych osobom prywatnym '
-  descriptionENG: Consults and advises private individuals on financial issues
-  descriptionDK: "R\xE5dgiver og r\xE5dgiver privatpersoner om \xF8konomiske forhold "
-  descriptionFIN: "Konsultoi ja neuvoo yksityishenkil\xF6it\xE4 talousasioissa "
+  descriptionPL: Udziela gwarancji bankowych osobom prywatnym i firmom
+  descriptionENG: It provides bank guarantees to private individuals and businesses
+  descriptionDK: Den giver bank-garantier til privatpersoner of firmaer
+  descriptionFIN: "Se tarjoaa pankkitakauksia yksityishenkil\xF6ille ja yrityksille"
   isCentralBankActivity: 0

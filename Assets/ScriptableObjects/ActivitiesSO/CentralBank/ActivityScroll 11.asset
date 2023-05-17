@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 11
-  descriptionPL: 'Reguluje podaz pieniadza '
-  descriptionENG: Regulates the money supply
-  descriptionDK: "Regulerer pengem\xE6ngden "
-  descriptionFIN: "S\xE4\xE4telee rahan tarjontaa "
+  descriptionPL: "Decyduje o ilo\u015Bci pieni\u0119dzy w gospodarce"
+  descriptionENG: It determines the amount of money in the economy
+  descriptionDK: "Den bestemmer m\xE6ngden af penge der er i oml\xF8b i \xF8konomien"
+  descriptionFIN: "Se m\xE4\xE4ritt\xE4\xE4 rahan m\xE4\xE4r\xE4n valtiontaloudessa"
   isCentralBankActivity: 1

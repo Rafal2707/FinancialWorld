@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 30
-  descriptionPL: Ustala wysokosc prowizji
-  descriptionENG: Sets the amount of commission
-  descriptionDK: "Indstiller provisionsbel\xF8bet "
-  descriptionFIN: "M\xE4\xE4ritt\xE4\xE4 palkkion m\xE4\xE4r\xE4n"
+  descriptionPL: "Ustala jakie jest oprocentowanie po\u017Cyczki dla klient\xF3w
+    indywidualnych"
+  descriptionENG: It determines the interest rate on loans for individual customers
+  descriptionDK: "Den bestemmer renten p\xE5 l\xE5n til privatpersoner"
+  descriptionFIN: "Se m\xE4\xE4ritt\xE4\xE4 yksityisasiakkaiden lainojen koron"
   isCentralBankActivity: 0

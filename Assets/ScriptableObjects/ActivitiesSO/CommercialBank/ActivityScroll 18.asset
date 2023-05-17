@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 18
-  descriptionPL: 'Udziela gwarancji bankowych '
-  descriptionENG: 'Provides bank guarantees '
-  descriptionDK: 'Giver bankgarantier '
-  descriptionFIN: 'Tarjoaa pankkitakauksia '
+  descriptionPL: "Prowadzi rachunki bankowe dla ludno\u015Bci"
+  descriptionENG: It runs individual bank accounts for private individuals and businesses
+  descriptionDK: Den bestyrer individuelle bankkonti for privatpersoner og firmaer
+  descriptionFIN: "Se yll\xE4pit\xE4\xE4 henkil\xF6kohtaisia pankkitilej\xE4 yksityishenkil\xF6ille
+    ja yrityksille"
   isCentralBankActivity: 0

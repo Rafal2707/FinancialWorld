@@ -41,10 +41,10 @@ public class LobbyMessageUI : MonoBehaviour
                 closeButtonText.text = "CLOSE";
                 break;
             case LanguageChoose.Language.DK:
-                closeButtonText.text = "TÆT";
+                closeButtonText.text = "LUK";
                 break;
             case LanguageChoose.Language.FIN:
-                closeButtonText.text = "KIINNI";
+                closeButtonText.text = "SULJE";
                 break;
         }
 
@@ -56,16 +56,16 @@ public class LobbyMessageUI : MonoBehaviour
         switch (LanguageChoose.Instance.currentLanguage)
         {
             case LanguageChoose.Language.PL:
-                ShowMessage("NIE ZNALEZIONO LOBBY DO LOSOWEGO ŁĄCZENIA");
+                ShowMessage("NIE ZNALEZIONO LOBBY DLA LOSOWEGO ŁĄCZENIA");
                 break;
             case LanguageChoose.Language.ENG:
                 ShowMessage("NO LOBBIES FOUND FOR RANDOM JOIN");
                 break;
             case LanguageChoose.Language.DK:
-                ShowMessage("LOBBY IKKE FUNDET TIL TILFÆLDIG KAMP");
+                ShowMessage("INGEN LOBBYER FUNDET FOR TILFÆLDIG TILMELDING");
                 break;
             case LanguageChoose.Language.FIN:
-                ShowMessage("AULAA EI LÖYDYNYT SATUNNUSOMAISILLE");
+                ShowMessage("ETSIMÄSI KALTAISTA AULAA EI LÖYTÄNYT");
                 break;
         }
     }
@@ -81,10 +81,10 @@ public class LobbyMessageUI : MonoBehaviour
                 ShowMessage("FAILED TO JOIN LOBBY");
                 break;
             case LanguageChoose.Language.DK:
-                ShowMessage("KUNNE IKKE DELTAGE I LOBBYEN");
+                ShowMessage("UNDLOD AT DELTAGE I LOBBYEN");
                 break;
             case LanguageChoose.Language.FIN:
-                ShowMessage("AULAN LIITTYMINEN Epäonnistunut");
+                ShowMessage("AULAAN LIITTYMINEN EPÄONNISTUI");
                 break;
         }
     }
@@ -100,10 +100,10 @@ public class LobbyMessageUI : MonoBehaviour
                 ShowMessage("JOINING LOBBY...");
                 break;
             case LanguageChoose.Language.DK:
-                ShowMessage("TILSLUTTER LOBBEN...");
+                ShowMessage("DELTAGELSE I LOBBY...");
                 break;
             case LanguageChoose.Language.FIN:
-                ShowMessage("LIITTYY LOBBIN...");
+                ShowMessage("LIITTYY AULAAN...");
                 break;
         }
     }
@@ -119,10 +119,10 @@ public class LobbyMessageUI : MonoBehaviour
                 ShowMessage("FAILED TO CREATE LOBBY");
                 break;
             case LanguageChoose.Language.DK:
-                ShowMessage("Lobbyen kunne ikke oprettes");
+                ShowMessage("KUNNE IKKE OPRETTE LOBBY");
                 break;
             case LanguageChoose.Language.FIN:
-                ShowMessage("Aulan luominen epäonnistui");
+                ShowMessage("AULAN LUOMINEN EPÄONNISTUI");
                 break;
         }
     }
@@ -132,16 +132,16 @@ public class LobbyMessageUI : MonoBehaviour
         switch (LanguageChoose.Instance.currentLanguage)
         {
             case LanguageChoose.Language.PL:
-                ShowMessage("Tworzenie lobby...");
+                ShowMessage("TWORZENIE LOBBY...");
                 break;
             case LanguageChoose.Language.ENG:
-                ShowMessage("Creating Lobby...");
+                ShowMessage("CREATING LOBBY...");
                 break;
             case LanguageChoose.Language.DK:
-                ShowMessage("Opretter lobby...");
+                ShowMessage("OPRETTELSE AF LOBBY...");
                 break;
             case LanguageChoose.Language.FIN:
-                ShowMessage("Luodaan aulaa...");
+                ShowMessage("LUODAAN AULAA...");
                 break;
         }
     }
@@ -153,16 +153,16 @@ public class LobbyMessageUI : MonoBehaviour
             switch (LanguageChoose.Instance.currentLanguage)
             {
                 case LanguageChoose.Language.PL:
-                    ShowMessage("Nieudane polączenie");
+                    ShowMessage("NIEUDANE POŁĄCZENIE");
                     break;
                 case LanguageChoose.Language.ENG:
-                    ShowMessage("Failed to connect");
+                    ShowMessage("FAILED TO CONNECT");
                     break;
                 case LanguageChoose.Language.DK:
-                    ShowMessage("Kunnede ikke oprette forbindelse");
+                    ShowMessage("FORBINDELSE MISLYKKEDES");
                     break;
                 case LanguageChoose.Language.FIN:
-                    ShowMessage("Yhdistäminen epäonnistui");
+                    ShowMessage("YHDISTÄMINEN EPÄONNISTUI");
                     break;
             }
         }

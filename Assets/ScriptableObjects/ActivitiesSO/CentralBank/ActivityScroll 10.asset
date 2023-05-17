@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 10
-  descriptionPL: 'Ksztaltuje kurs waluty krajowej '
-  descriptionENG: 'Sets the exchange rate of the national currency '
-  descriptionDK: 'Former valutakursen for den nationale valuta '
-  descriptionFIN: 'Muotoilee kansallisen valuutan vaihtokurssin '
+  descriptionPL: "Swoimi dzia\u0142aniami wp\u0142ywa na cen\u0119 waluty danego
+    kraju"
+  descriptionENG: It affects the price of country's currency through its actions
+  descriptionDK: "Dens handlinger p\xE5virker prisen af landets m\xF8ntfod"
+  descriptionFIN: Se vaikuttaa toiminnallaan maan valuutan hintaan
   isCentralBankActivity: 1

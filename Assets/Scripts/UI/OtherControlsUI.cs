@@ -41,16 +41,16 @@ public class OtherControlsUI : MonoBehaviour
             case LanguageChoose.Language.DK:
                 controlsText.text = "FUNKTIONSTASTER";
                 keyboardText.text = "TASTATUR";
-                interactText.text = "INTERACT";
+                interactText.text = "INTERAGERE";
                 pauseText.text = "PAUSE";
-                pressInteractToStartText.text = "TRYK PÅ 'INTERACT' FOR AT STARTE";
+                pressInteractToStartText.text = "TRYK PÅ 'INTERAGERE' FOR AT STARTE";
                 break;
             case LanguageChoose.Language.FIN:
-                controlsText.text = "TOIMINTONÄPPÄIMET";
+                controlsText.text = "NÄPPÄINTOIMINNOT";
                 keyboardText.text = "NÄPPÄIMISTÖ";
-                interactText.text = "INTERACT";
+                interactText.text = "POIMI/PUDOTA";
                 pauseText.text = "TAUKO";
-                pressInteractToStartText.text = "JATKA PAINA 'INTERACT'";
+                pressInteractToStartText.text = "PAINA 'POIMI/PUDOTA' JATKAAKSESI";
                 break;
         }
 

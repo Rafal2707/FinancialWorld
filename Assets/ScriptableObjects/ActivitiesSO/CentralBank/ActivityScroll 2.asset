@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
   number: 2
-  descriptionPL: Jest bankiem panstwa
-  descriptionENG: It is a state's bank
-  descriptionDK: Det er en statsbank
-  descriptionFIN: Se on valtion pankki
+  descriptionPL: "Jest g\u0142\xF3wnym bankiem pa\u0144stwa"
+  descriptionENG: It is the main bank of the state
+  descriptionDK: Den er statens centralbank
+  descriptionFIN: "Se on maan p\xE4\xE4pankki"
   isCentralBankActivity: 1
