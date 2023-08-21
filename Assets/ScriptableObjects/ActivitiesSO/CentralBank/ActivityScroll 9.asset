@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 978c27835036aca4b9ebe934e3db8a82, type: 3}
+  m_Name: ActivityScroll 9
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 4550670398191734610, guid: 2adc813e439a3a94caed34ad6c3c0245, type: 3}
+  number: 9
+  descriptionPL: "Stara si\u0119 zapewni\u0107 aby ceny by\u0142y stabilne"
+  descriptionENG: It tries to ensure that prices are stable
+  descriptionDK: "Den fors\xF8ger at sikre et stabilt prisleje"
+  descriptionFIN: "Se yritt\xE4\xE4 varmistaa, ett\xE4 hinnat pysyv\xE4t vakaina"
+  isCentralBankActivity: 1
