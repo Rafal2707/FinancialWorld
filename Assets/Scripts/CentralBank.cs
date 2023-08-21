@@ -19,7 +19,17 @@ public class CentralBank : NetworkBehaviour
 
     [SerializeField] private Transform dropArea;
 
+    [SerializeField] private GameObject centralBankLabelENG;
+    [SerializeField] private GameObject centralBankLabelENGBBlack;
 
+    [SerializeField] private GameObject centralBankLabelPL;
+    [SerializeField] private GameObject centralBankLabelPLBBlack;
+
+    [SerializeField] private GameObject centralBankLabelDK;
+    [SerializeField] private GameObject centralBankLabelDKBBlack;
+
+    [SerializeField] private GameObject centralBankLabelFIN;
+    [SerializeField] private GameObject centralBankLabelFINBBlack;
 
     private void Start()
     {
@@ -28,6 +38,29 @@ public class CentralBank : NetworkBehaviour
 
         ActivityScroll.OnCentralBankCorrectScroll += ActivityScroll_OnCorrectScroll;
         ActivityScroll.OnCentralBankWrongScroll += ActivityScroll_OnWrongScroll;
+
+
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.ENG:
+                centralBankLabelENG.SetActive(true);
+                centralBankLabelENGBBlack.SetActive(true);
+                break;
+            case LanguageChoose.Language.PL:
+                centralBankLabelPL.SetActive(true);
+                centralBankLabelPLBBlack.SetActive(true);
+                break;
+            case LanguageChoose.Language.DK:
+                centralBankLabelDK.SetActive(true);
+                centralBankLabelDKBBlack.SetActive(true);
+                break;
+            case LanguageChoose.Language.FIN:
+                centralBankLabelFIN.SetActive(true);
+                centralBankLabelFINBBlack.SetActive(true);
+                break;
+        }
+
     }
 
     private void ActivityScroll_OnWrongScroll(object sender, EventArgs e)

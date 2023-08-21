@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.CullingGroup;
 
 public class ScoreUI : NetworkBehaviour
 {
@@ -13,7 +9,6 @@ public class ScoreUI : NetworkBehaviour
     [SerializeField] CentralBank centralBank;
     [SerializeField] CommercialBank commercialBank;
 
-
     [SerializeField] public NetworkVariable<int> score = new NetworkVariable<int>(0);
     [SerializeField] public NetworkVariable<int> tries = new NetworkVariable<int>(0);
 
@@ -21,14 +16,11 @@ public class ScoreUI : NetworkBehaviour
     {
         return score.Value;
     }
-    
 
     public int GetTries()
     {
         return tries.Value;
     }
-
- 
 
     public override void OnNetworkSpawn()
     {
@@ -37,7 +29,7 @@ public class ScoreUI : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        score.OnValueChanged -= OnStateChanged;        
+        score.OnValueChanged -= OnStateChanged;
     }
 
     public void OnStateChanged(int previous, int current)
@@ -73,17 +65,13 @@ public class ScoreUI : NetworkBehaviour
         scoreText.text = currentValue.ToString();
     }
 
-
     [ServerRpc(RequireOwnership = false)]
     public void DecreaseServerRpc()
     {
-        if(score.Value > 0)
+        if (score.Value > 0)
         {
             score.Value--;
         }
         scoreText.text = score.Value.ToString();
-
     }
-
-
 }

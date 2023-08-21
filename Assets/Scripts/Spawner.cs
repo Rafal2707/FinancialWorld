@@ -96,13 +96,11 @@ public class Spawner : NetworkBehaviour
         Transform spawnedScrollTransform = Instantiate(randomActivityScrollSO.prefab, RandomSpawnOffsetPosition(randomLocationTransform), Quaternion.identity);
 
         NetworkObject spawnedNetworkScroll = spawnedScrollTransform.GetComponent<NetworkObject>();
-
-        // Spawn is like instantiate for network, we need to do this first and after that we can assign parameters to it !
         spawnedNetworkScroll.Spawn(true);
 
         spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignCentralBankActivityClientRpc(randomActivityScrollSO.isCentralBankActivity);
         spawnedNetworkScroll.GetComponent<ActivityScroll>().AssignNumberClientRpc(randomActivityScrollSO.number);
-        AssignHostDescriptionLanguageClientRpc(newActivityScrollSOIndex, spawnedNetworkScroll);
+        AssignLocalDescriptionLanguageClientRpc(newActivityScrollSOIndex, spawnedNetworkScroll);
         
         SpawnNewScrollClientRpc(newActivityScrollSOIndex);
 
@@ -120,7 +118,7 @@ public class Spawner : NetworkBehaviour
 
 
     [ClientRpc]
-    private void AssignHostDescriptionLanguageClientRpc(int newActivityScrollSOIndex, NetworkObjectReference spawnedNetworkScrollReference)
+    private void AssignLocalDescriptionLanguageClientRpc(int newActivityScrollSOIndex, NetworkObjectReference spawnedNetworkScrollReference)
     {
         ActivityScrollSO randomActivityScrollSO = GetActivityScrollSOFromIndex(newActivityScrollSOIndex);
 

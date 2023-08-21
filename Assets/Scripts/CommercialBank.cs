@@ -19,13 +19,51 @@ public class CommercialBank : NetworkBehaviour
     [SerializeField] private Transform dropArea;
 
 
+
+    [SerializeField] private GameObject commercialBankLabelENG;
+    [SerializeField] private GameObject commercialBankLabelENGBBlack;
+
+    [SerializeField] private GameObject commercialBankLabelPL;
+    [SerializeField] private GameObject commercialBankLabelPLBBlack;
+
+    [SerializeField] private GameObject commercialBankLabelDK;
+    [SerializeField] private GameObject commercialBankLabelDKBBlack;
+
+    [SerializeField] private GameObject commercialBankLabelFIN;
+    [SerializeField] private GameObject commercialBankLabelFINBBlack;
+
+
     private void Start()
     {
         fireworksLeft.Stop();
         fireworksRight.Stop();
 
         ActivityScroll.OnCommercialBankCorrectScroll += ActivityScroll_OnCorrectScroll;
-        ActivityScroll.OnCommercialBankWrongScroll += ActivityScroll_OnWrongScroll; 
+        ActivityScroll.OnCommercialBankWrongScroll += ActivityScroll_OnWrongScroll;
+
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.ENG:
+                commercialBankLabelENG.SetActive(true);
+                commercialBankLabelENGBBlack.SetActive(true);
+                break;
+            case LanguageChoose.Language.PL:
+                commercialBankLabelPL.SetActive(true);
+                commercialBankLabelPLBBlack.SetActive(true);
+                break;
+            case LanguageChoose.Language.DK:
+                commercialBankLabelDK.SetActive(true);
+                commercialBankLabelDKBBlack.SetActive(true);
+                break;
+            case LanguageChoose.Language.FIN:
+                commercialBankLabelFIN.SetActive(true);
+                commercialBankLabelFINBBlack.SetActive(true);
+                break;
+        }
+
+
+
     }
 
     private void ActivityScroll_OnWrongScroll(object sender, EventArgs e)

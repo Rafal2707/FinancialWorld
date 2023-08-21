@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -40,7 +40,23 @@ public class ScrollResultUICommercialBank : MonoBehaviour
         animator.SetTrigger(POPUP);
         backgroundImage.color = failedColor;
         iconImage.sprite = failedSprite;
-        messageText.text = "INCORRECT\nSCROLL";
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.ENG:
+                messageText.text = "INCORRECT\nSCROLL";
+                break;
+            case LanguageChoose.Language.PL:
+                messageText.text = "ZWÓJ\nNIEPRAWIDŁOWY";
+                break;
+            case LanguageChoose.Language.DK:
+                messageText.text = "FORKERT\nAKTIVITETSRULLE";
+                break;
+            case LanguageChoose.Language.FIN:
+                messageText.text = "VÄÄRÄ\nKÄÄRÖT";
+                break;
+        }
+
     }
 
     private void CommercialBank_OnScrollCorrect(object sender, System.EventArgs e)
@@ -49,6 +65,21 @@ public class ScrollResultUICommercialBank : MonoBehaviour
         animator.SetTrigger(POPUP);
         backgroundImage.color = succesColor;
         iconImage.sprite = succesSprite;
-        messageText.text = "CORRECT\nSCROLL";
+
+        switch (LanguageChoose.Instance.GetCurrentLanguage())
+        {
+            case LanguageChoose.Language.ENG:
+                messageText.text = "CORRECT\nSCROLL";
+                break;
+            case LanguageChoose.Language.PL:
+                messageText.text = "ZWÓJ\nPOPRAWNY";
+                break;
+            case LanguageChoose.Language.DK:
+                messageText.text = "KORREKT\nAKTIVITETSRULLE";
+                break;
+            case LanguageChoose.Language.FIN:
+                messageText.text = "OIKEA\nKÄÄRÖT";
+                break;
+        }
     }
 }
